@@ -18,8 +18,7 @@ import io.reactivex.disposables.Disposable;
  * Created by blackflagbin on 2017/6/28.
  */
 
-public abstract class BaseActivity<P extends BasePresenter> extends AppCompatActivity implements
-        IBaseView {
+public abstract class BaseActivity<P extends BasePresenter> extends AppCompatActivity {
 
     @Inject
     public    P                   mPresenter;
@@ -49,6 +48,9 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
 
     protected abstract void initComponent(AppComponent appComponent);
 
+    /**
+     * 在数据加载之前的一些初始化
+     */
     protected abstract void init();
 
     protected void addDisposable(Disposable disposable) {

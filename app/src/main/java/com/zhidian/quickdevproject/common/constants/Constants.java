@@ -5,6 +5,6 @@ package com.zhidian.quickdevproject.common.constants;
  */
 
 public class Constants {
-    public static String TOKEN    = "token";
-    public static String BASE_URL = "base_url";
+
+    public static final String TOKEN = "token";
 }

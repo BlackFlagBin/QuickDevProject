@@ -1,19 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.zhidian.quickdevproject.ui.activity.MainActivity">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-</android.support.constraint.ConstraintLayout>
+        <include layout="@layout/ma_layout_toolbar"/>
+
+        <com.kennyc.view.MultiStateView
+            android:id="@+id/multi_state_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:msv_emptyView="@layout/ma_layout_empty_mutual_aid"
+            app:msv_errorView="@layout/ma_layout_error_mutual_aid"
+            app:msv_loadingView="@layout/ma_layout_loading_mutual_aid"
+            app:msv_viewState="loading">
+
+            <android.support.v4.widget.SwipeRefreshLayout
+                android:id="@+id/swipe_refresh"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tv_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+
+            </android.support.v4.widget.SwipeRefreshLayout>
+        </com.kennyc.view.MultiStateView>
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>

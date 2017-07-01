@@ -21,7 +21,7 @@ import io.reactivex.disposables.Disposable;
  * Created by blackflagbin on 2017/6/28.
  */
 
-public abstract class BaseFragment<P extends BasePresenter> extends Fragment implements IBaseView {
+public abstract class BaseFragment<P extends BasePresenter> extends Fragment {
 
     @Inject
     public  P                   mPresenter;
@@ -53,6 +53,9 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
 
     protected abstract int getLayoutResId();
 
+    /**
+     * 在数据加载之前的一些初始化
+     */
     protected abstract void init(View rootView);
 
     protected abstract void initComponent(AppComponent appComponent);

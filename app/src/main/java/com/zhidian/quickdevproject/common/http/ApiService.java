@@ -10,7 +10,6 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.Path;
 
 public interface ApiService {
 
@@ -34,33 +33,9 @@ public interface ApiService {
     @GET("user/community/list")
     Observable<HttpResult<List<Object>>> getCommunityList();
 
-    /**
-     * 获取门禁列表
-     *
-     * @return
-     */
-    @GET("user/entrance/{communityId}/list")
-    Observable<HttpResult<List<Object>>> getEntranceList(
-            @Path("communityId") String communityId);
+    @GET("/")
+    Observable<String> getDataFromBaidu();
 
-    /**
-     * 修改门禁不再接收呼叫
-     *
-     * @return
-     */
-    @FormUrlEncoded
-    @POST("user/entrance/set_intercom_accept")
-    Observable<HttpResult<String>> chooseNotCallEntrance(
-            @Field("id") String deviceId,
-            @Field("ifSupportVedioIntercom") int ifSupportVedioIntercom);
-
-    /**
-     * 检查门禁是否过期
-     *
-     * @return
-     */
-    @GET("user/entrance/{entranceId}/unlock_in_app")
-    Observable<HttpResult<Object>> openLockCheck(@Path("entranceId") String entranceId);
 
     /**
      * 退出登录

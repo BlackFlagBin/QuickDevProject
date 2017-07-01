@@ -48,7 +48,7 @@ android {
     }
     buildTypes {
         debug {
-            buildConfigField "String", "APP_URL", "\"http://114.55.143.170:8081/\""
+            buildConfigField "String", "APP_URL", "\"https://zhidao.baidu.com/\""
             buildConfigField "String", "EXTRA_URL", " \"\" "
             signingConfig signingConfigs.release
             appName = "debug"
@@ -56,7 +56,7 @@ android {
             manifestPlaceholders = [APPLICATION_NAME: "${appName}"]
         }
         release {
-            buildConfigField "String", "APP_URL", "\"https://www.51weker.com/\""
+            buildConfigField "String", "APP_URL", "\"https://www.baidu.com/\""
             buildConfigField "String", "EXTRA_URL", "\"cloud_radio/\""
             minifyEnabled false
             signingConfig signingConfigs.release
@@ -78,6 +78,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:design:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
     //Multidex
@@ -110,4 +111,7 @@ dependencies {
     compile 'com.github.Kennyc1012:MultiStateView:1.3.0'
     //加载动画
     compile 'com.github.ybq:Android-SpinKit:1.1.0'
+    //换肤
+    compile 'com.bilibili:magicasakura:0.1.6@aar'
+
 }
