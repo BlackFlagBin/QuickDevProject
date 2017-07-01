@@ -10,11 +10,64 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        ndk {
+            abiFilters "arm64-v8a", 'armeabi-v7a', "armeabi"
+        }
+        multiDexEnabled true
+    }
+    //修改生成的apk名字
+    def appName;
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def oldFile = output.outputFile
+            def newName = '';
+            if (variant.buildType.name.equals('release')) {
+                def releaseApkName = 'release.apk'
+                output.outputFile = new File(oldFile.parent, releaseApkName)
+            }
+            if (variant.buildType.name.equals('debug')) {
+                def releaseApkName = 'debug.apk'
+                output.outputFile = new File(oldFile.parent, releaseApkName)
+            }
+        }
+    }
+    aaptOptions {
+        cruncherEnabled false
+        useNewCruncher false
+    }
+    lintOptions {
+        abortOnError false
+    }
+    signingConfigs {
+        release {
+            storeFile file('keystore.jks')
+            storePassword "123456"
+            keyAlias "quickdevproject"
+            keyPassword "123456"
+        }
     }
     buildTypes {
-        release {
+        debug {
+            buildConfigField "String", "APP_URL", "\"http://114.55.143.170:8081/\""
+            buildConfigField "String", "EXTRA_URL", " \"\" "
+            signingConfig signingConfigs.release
+            appName = "debug"
             minifyEnabled false
+            manifestPlaceholders = [APPLICATION_NAME: "${appName}"]
+        }
+        release {
+            buildConfigField "String", "APP_URL", "\"https://www.51weker.com/\""
+            buildConfigField "String", "EXTRA_URL", "\"cloud_radio/\""
+            minifyEnabled false
+            signingConfig signingConfigs.release
+            appName = "release"
+            manifestPlaceholders = [APPLICATION_NAME: "${appName}"]
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
         }
     }
 }
@@ -34,6 +87,8 @@ dependencies {
     //依赖注入
     compile 'com.google.dagger:dagger:2.11'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.11'
+    compile 'com.jakewharton:butterknife:8.5.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     //图片访问
     compile 'com.github.bumptech.glide:glide:3.7.0'
     //网络访问
