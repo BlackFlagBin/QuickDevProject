@@ -1,8 +1,11 @@
 package com.zhidian.quickdevproject.mvp.contract;
 
 import com.zhidian.quickdevproject.common.entity.datacapsule.MainDataEntity;
+import com.zhidian.quickdevproject.common.entity.http.NewsEntity;
 import com.zhidian.quickdevproject.ui.base.IBasePresenter;
 import com.zhidian.quickdevproject.ui.base.IBaseView;
+
+import java.util.List;
 
 import io.reactivex.Observable;
 
@@ -12,7 +15,7 @@ import io.reactivex.Observable;
 
 public interface MainContract {
     interface Model {
-        Observable<String> getDataFromBaidu();
+        Observable<List<NewsEntity>> getGankNews();
     }
 
     interface View extends IBaseView<MainDataEntity>{

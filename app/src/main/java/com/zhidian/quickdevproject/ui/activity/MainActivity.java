@@ -1,6 +1,5 @@
 package com.zhidian.quickdevproject.ui.activity;
 
-import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.widget.TextView;
 
@@ -15,9 +14,9 @@ import com.zhidian.quickdevproject.mvp.presenter.MainPresenter;
 import com.zhidian.quickdevproject.ui.base.BaseActivity;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
-public class MainActivity extends BaseActivity<MainPresenter> implements MainContract.View {
+public class MainActivity extends BaseActivity<MainPresenter> implements MainContract.View,
+        SwipeRefreshLayout.OnRefreshListener {
 
 
     @BindView(R.id.tv_content)
@@ -26,41 +25,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     SwipeRefreshLayout mSwipeRefresh;
     @BindView(R.id.multi_state_view)
     MultiStateView     mMultiStateView;
-
-    @Override
-    public void showTip(String tipMsg) {
-
-    }
-
-    @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void dismissLoading() {
-
-    }
-
-    @Override
-    public void showSuccessView() {
-        mMultiStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
-    }
-
-    @Override
-    public void showEmptyView() {
-
-    }
-
-    @Override
-    public void showErrorView(String errorMsg) {
-
-    }
-
-    @Override
-    public void setupView(MainDataEntity data) {
-        mTvContent.setText(data.baiduData);
-    }
 
     @Override
     protected int getLayoutResId() {
@@ -81,4 +45,38 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         mPresenter.initData();
     }
 
+    @Override
+    public void onRefresh() {
+
+    }
+
+    @Override
+    public void showTip(String tipMsg) {
+
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void dismissLoading() {
+
+    }
+
+    @Override
+    public void showSuccessView(MainDataEntity data) {
+        mMultiStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
+    }
+
+    @Override
+    public void showEmptyView() {
+        mMultiStateView.setViewState(MultiStateView.VIEW_STATE_EMPTY);
+    }
+
+    @Override
+    public void showErrorView(String errorMsg) {
+        mMultiStateView.setViewState(MultiStateView.VIEW_STATE_ERROR);
+    }
 }

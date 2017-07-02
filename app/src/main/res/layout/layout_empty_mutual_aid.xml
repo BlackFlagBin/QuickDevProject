@@ -14,19 +14,19 @@
         android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/iv_error"
-            android:layout_width="@dimen/error_icon_width"
-            android:layout_height="@dimen/error_icon_height"
+            android:id="@+id/iv_empty"
+            android:layout_width="@dimen/empty_icon_width"
+            android:layout_height="@dimen/empty_icon_height"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/nocontent_nointernet_3x"/>
+            android:src="@drawable/nocontent_nohelp_3x"/>
 
         <TextView
-            android:id="@+id/tv_error_msg"
+            android:id="@+id/tv_empty_msg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/default_text_top_margin"
-            android:text="网络连接异常，请重新加载"
+            android:text="暂无数据"
             android:textColor="@color/grey_dark1"
             android:textSize="@dimen/text_big"/>
 
@@ -35,11 +35,12 @@
             android:layout_width="@dimen/default_button_width"
             android:layout_height="@dimen/default_button_height"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="30dp"
-            android:background="@drawable/ma_shape_button_border_grey"
-            android:text="重新加载"
+            android:layout_marginTop="@dimen/default_text_top_margin"
+            android:background="@drawable/shape_button_border_grey"
+            android:text="点击重试"
             android:textColor="@color/grey_dark1"
-            android:textSize="@dimen/text_big"/>
+            android:textSize="@dimen/text_big"
+            android:visibility="gone"/>
 
     </LinearLayout>
 

@@ -1,7 +1,11 @@
 package com.zhidian.quickdevproject.mvp.model;
 
+import com.zhidian.quickdevproject.common.entity.http.NewsEntity;
 import com.zhidian.quickdevproject.common.http.ApiService;
+import com.zhidian.quickdevproject.common.http.transformer.DefaultTransformer;
 import com.zhidian.quickdevproject.mvp.contract.MainContract;
+
+import java.util.List;
 
 import javax.crypto.MacSpi;
 
@@ -24,8 +28,7 @@ public class MainModel implements MainContract.Model {
     }
 
     @Override
-    public Observable<String> getDataFromBaidu() {
-        return mApiService.getDataFromBaidu().subscribeOn(Schedulers.io()).observeOn(
-                AndroidSchedulers.mainThread());
+    public Observable<List<NewsEntity>> getGankNews() {
+        return mApiService.getGankNews().compose(new DefaultTransformer<List<NewsEntity>>());
     }
 }

@@ -1,6 +1,9 @@
 package com.zhidian.quickdevproject.common.http;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
 import com.zhidian.quickdevproject.common.utils.SharedPreferencesUtils;
@@ -11,17 +14,31 @@ import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
 public class ErrorHandler {
-    public static void handleError(
-            Throwable e, Context context, IBaseView baseView) {
+
+    public static void handleError(Throwable e, IBaseView baseView) {
+        Context context = null;
+        if (baseView instanceof Activity) {
+            context = (Context) baseView;
+        }
+        if (baseView instanceof Fragment) {
+            context = ((Fragment) baseView).getActivity();
+        }
         if (e instanceof ApiException) {
+            Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
             switch (((ApiException) e).getResultCode()) {
                 case 401:
-                    Toast.makeText(context, "您的账号在别处登录，请重新登录", Toast.LENGTH_SHORT).show();
+                    //账号在别处登录
                     SharedPreferencesUtils.clear();
+                    //因为暂时没有登录页面，所以先随便填了一个Object.class
+                    startLoginActivity(context, Object.class);
+                    break;
+                case 10031:
+                    //token过期
+                    SharedPreferencesUtils.clear();
+                    //因为暂时没有登录页面，所以先随便填了一个Object.class
+                    startLoginActivity(context, Object.class);
                     break;
                 default:
-                    Toast.makeText(context, ((ApiException) e).getMessage(), Toast.LENGTH_SHORT)
-                            .show();
                     break;
             }
         } else {
@@ -35,8 +52,18 @@ public class ErrorHandler {
 
             } else {
                 baseView.showErrorView("未知错误");
-
             }
         }
+    }
+
+    /**
+     * 跳转到登录页面，同时清空之前的任务栈
+     *
+     * @param context    context
+     * @param loginClazz 登录页面Activity的Class类
+     */
+    private static void startLoginActivity(Context context, Class loginClazz) {
+        context.startActivity(new Intent(context, loginClazz).addFlags(
+                Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
     }
 }

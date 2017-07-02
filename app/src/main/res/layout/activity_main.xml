@@ -10,15 +10,15 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include layout="@layout/ma_layout_toolbar"/>
+        <include layout="@layout/layout_toolbar"/>
 
         <com.kennyc.view.MultiStateView
             android:id="@+id/multi_state_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:msv_emptyView="@layout/ma_layout_empty_mutual_aid"
-            app:msv_errorView="@layout/ma_layout_error_mutual_aid"
-            app:msv_loadingView="@layout/ma_layout_loading_mutual_aid"
+            app:msv_emptyView="@layout/layout_empty_mutual_aid"
+            app:msv_errorView="@layout/layout_error_mutual_aid"
+            app:msv_loadingView="@layout/layout_loading_mutual_aid"
             app:msv_viewState="loading">
 
             <android.support.v4.widget.SwipeRefreshLayout
