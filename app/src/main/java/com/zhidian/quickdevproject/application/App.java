@@ -4,7 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
 
-import com.zhidian.quickdevproject.common.utils.SharedPreferencesUtils;
+import com.blankj.utilcode.utils.Utils;
 import com.zhidian.quickdevproject.di.component.AppComponent;
 import com.zhidian.quickdevproject.di.component.DaggerAppComponent;
 import com.zhidian.quickdevproject.di.module.AppModule;
@@ -30,7 +30,15 @@ public class App extends Application {
                 .appModule(new AppModule(this))
                 .httpModule(new HttpModule())
                 .build();
-        SharedPreferencesUtils.init(this);
+        Utils.init(this);
+        initThirdPart();
+    }
+
+    /**
+     * 初始化第三方
+     */
+    private void initThirdPart() {
+
     }
 
     public AppComponent getAppComponent() {

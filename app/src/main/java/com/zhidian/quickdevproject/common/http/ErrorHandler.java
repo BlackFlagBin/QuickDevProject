@@ -6,7 +6,8 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
-import com.zhidian.quickdevproject.common.utils.SharedPreferencesUtils;
+import com.blankj.utilcode.utils.SPUtils;
+import com.zhidian.quickdevproject.common.constants.Constants;
 import com.zhidian.quickdevproject.ui.base.IBaseView;
 
 import java.net.ConnectException;
@@ -28,13 +29,13 @@ public class ErrorHandler {
             switch (((ApiException) e).getResultCode()) {
                 case 401:
                     //账号在别处登录
-                    SharedPreferencesUtils.clear();
+                    new SPUtils(Constants.SP_FILE_NAME).clear();
                     //因为暂时没有登录页面，所以先随便填了一个Object.class
                     startLoginActivity(context, Object.class);
                     break;
                 case 10031:
                     //token过期
-                    SharedPreferencesUtils.clear();
+                    new SPUtils(Constants.SP_FILE_NAME).clear();
                     //因为暂时没有登录页面，所以先随便填了一个Object.class
                     startLoginActivity(context, Object.class);
                     break;

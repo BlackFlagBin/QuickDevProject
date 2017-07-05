@@ -6,8 +6,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 /**
- * Description: 只拦截竖直方向的滑动事件，避免多层嵌套带来的滑动冲突的SwipeRefreshLayout Copyright  : Copyright (c) 2016 Company    : zhidian Author     : zhibin Date       :
- * 2016/12/4 16:43
+ * 只拦截竖直方向的滑动事件，避免多层嵌套带来的滑动冲突的
  */
 public class NestedSwipeRefreshLayout extends SwipeRefreshLayout {
     private float mDownPosX;

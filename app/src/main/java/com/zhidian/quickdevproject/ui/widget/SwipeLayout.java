@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/**
+ * 侧滑layout
+ */
 public class SwipeLayout extends LinearLayout {
 
     public static final int EXPAND = 0;

@@ -7,4 +7,5 @@ package com.zhidian.quickdevproject.common.constants;
 public class Constants {
 
     public static final String TOKEN = "token";
+    public static final String SP_FILE_NAME = "sp_file_name";
 }

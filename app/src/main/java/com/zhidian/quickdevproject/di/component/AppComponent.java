@@ -1,5 +1,6 @@
 package com.zhidian.quickdevproject.di.component;
 
+import com.google.gson.Gson;
 import com.zhidian.quickdevproject.application.App;
 import com.zhidian.quickdevproject.common.http.ApiService;
 import com.zhidian.quickdevproject.di.module.AppModule;
@@ -17,6 +18,8 @@ import dagger.Component;
 public interface AppComponent {
 
     ApiService getApiService();
+
+    Gson getGson();
 
     App getApplication();
 }
