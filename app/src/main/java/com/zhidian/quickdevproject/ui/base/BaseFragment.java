@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.zhidian.quickdevproject.CommonModule;
 import com.zhidian.quickdevproject.application.App;
 import com.zhidian.quickdevproject.di.component.AppComponent;
 
@@ -27,7 +28,6 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment {
     public  P                   mPresenter;
     private View                mRootView;
     private Unbinder            mUnbinder;
-    private App                 mApp;
     private CompositeDisposable mCompositeDisposable;
 
     @Nullable
@@ -35,8 +35,7 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment {
     public View onCreateView(
             LayoutInflater inflater, @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
-        mApp = (App) (getActivity().getApplication());
-        initComponent(mApp.getAppComponent());
+        initComponent(CommonModule.getInstance().getAppComponent());
         mRootView = inflater.inflate(getLayoutResId(), container, false);
         mUnbinder = ButterKnife.bind(this, mRootView);
         mCompositeDisposable = new CompositeDisposable();

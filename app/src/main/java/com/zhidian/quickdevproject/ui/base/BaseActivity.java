@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import com.zhidian.quickdevproject.CommonModule;
 import com.zhidian.quickdevproject.application.App;
 import com.zhidian.quickdevproject.di.component.AppComponent;
 
@@ -23,7 +24,6 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     @Inject
     public    P                   mPresenter;
     protected CompositeDisposable mCompositeDisposable;
-    protected App                 mApp;
     private   Unbinder            mUnbinder;
 
     @Override
@@ -32,8 +32,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         setContentView(getLayoutResId());
         mCompositeDisposable = new CompositeDisposable();
         mUnbinder = ButterKnife.bind(this);
-        mApp = (App) getApplication();
-        initComponent(mApp.getAppComponent());
+        initComponent(CommonModule.getInstance().getAppComponent());
         init();
     }
 

@@ -13,17 +13,17 @@ import dagger.Provides;
  * Created by blackflagbin on 2017/6/28.
  */
 @Module
-public class AppModule {
+public class AppModule<T extends Application> {
 
-    private App mApplication;
+    private T mApplication;
 
-    public AppModule(App application) {
+    public AppModule(T application) {
         mApplication = application;
     }
 
     @Singleton
     @Provides
-    public App provideApplication() {
+    public T provideApplication() {
         return mApplication;
     }
 }
