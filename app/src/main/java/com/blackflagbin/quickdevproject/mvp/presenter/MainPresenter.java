@@ -38,7 +38,7 @@ public class MainPresenter extends BasePresenter<MainContract.IMainModel, MainCo
         if (pageNo == 1) {
             mView.beforeInitData();
             return mModel.getDataList(pageNo)
-                    .subscribeWith(new NoProgressObserver<List<Entity>>(true, url, mView, new ObserverCallBack<List<Entity>>() {
+                    .subscribeWith(new NoProgressObserver<List<Entity>>(true, false, url, mView, new ObserverCallBack<List<Entity>>() {
                         @Override
                         public void onNext(List<Entity> list) {
                             mView.showSuccessView(list);
@@ -62,7 +62,7 @@ public class MainPresenter extends BasePresenter<MainContract.IMainModel, MainCo
         } else {
 
             return mModel.getDataList(pageNo)
-                    .subscribeWith(new NoProgressObserver<List<Entity>>(true, url, mView, new ObserverCallBack<List<Entity>>() {
+                    .subscribeWith(new NoProgressObserver<List<Entity>>(true, true, url, mView, new ObserverCallBack<List<Entity>>() {
                         @Override
                         public void onNext(List<Entity> list) {
                             mView.afterLoadMore(list);

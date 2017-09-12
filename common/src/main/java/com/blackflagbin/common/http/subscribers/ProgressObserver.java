@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 
-import com.blackflagbin.common.base.IBaseView;
+import com.blackflagbin.common.base.IBaseRefreshAndLoadMoreView;
 import com.blackflagbin.common.entity.http.CookieResult;
 import com.blackflagbin.common.http.ErrorHandler;
 import com.blackflagbin.common.http.progress.ProgressCancelListener;
@@ -15,15 +15,16 @@ import io.reactivex.observers.ResourceObserver;
 
 public class ProgressObserver<T> extends ResourceObserver<T> implements ProgressCancelListener {
 
-    private final IBaseView             mBaseView;
-    private final boolean               mIsCache;
-    private final String                mUrl;
-    private       ObserverCallBack      mCallBack;
-    private       ProgressDialogHandler mProgressDialogHandler;
+    private final IBaseRefreshAndLoadMoreView mBaseView;
+    private final boolean                     mIsCache;
+    private final String                      mUrl;
+    private final boolean                     mIsLoadMore;
+    private       ObserverCallBack            mCallBack;
+    private       ProgressDialogHandler       mProgressDialogHandler;
 
     private Context mContext;
 
-    public ProgressObserver(boolean isCache, String url, IBaseView baseView, ObserverCallBack callBack) {
+    public ProgressObserver(boolean isCache, boolean isLoadMore, String url, IBaseRefreshAndLoadMoreView baseView, ObserverCallBack callBack) {
         if (baseView instanceof Activity) {
             mContext = (Context) baseView;
         }
@@ -31,6 +32,7 @@ public class ProgressObserver<T> extends ResourceObserver<T> implements Progress
             mContext = ((Fragment) baseView).getActivity();
         }
         mIsCache = isCache;
+        mIsLoadMore = isLoadMore;
         mUrl = url;
         mBaseView = baseView;
         mCallBack = callBack;
@@ -55,9 +57,14 @@ public class ProgressObserver<T> extends ResourceObserver<T> implements Progress
             /*获取缓存数据*/
             CookieResult cookieResult = CookieDbUtil.getInstance().queryCookieBy(mUrl);
             if (cookieResult == null) {
-                ErrorHandler.handleError(e, mBaseView);
-                if (mCallBack != null) {
-                    mCallBack.onError(e);
+                if (mIsLoadMore) {
+                    mBaseView.showTip("无网络");
+                    mBaseView.afterLoadMoreError(e);
+                } else {
+                    ErrorHandler.handleError(e, mBaseView);
+                    if (mCallBack != null) {
+                        mCallBack.onError(e);
+                    }
                 }
             } else {
                 String result = cookieResult.getResult();

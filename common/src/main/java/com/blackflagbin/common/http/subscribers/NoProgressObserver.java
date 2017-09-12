@@ -1,7 +1,7 @@
 package com.blackflagbin.common.http.subscribers;
 
 
-import com.blackflagbin.common.base.IBaseView;
+import com.blackflagbin.common.base.IBaseRefreshAndLoadMoreView;
 import com.blackflagbin.common.entity.http.CookieResult;
 import com.blackflagbin.common.http.ErrorHandler;
 import com.blackflagbin.common.util.CookieDbUtil;
@@ -10,13 +10,15 @@ import io.reactivex.observers.ResourceObserver;
 
 public class NoProgressObserver<T> extends ResourceObserver<T> {
 
-    private final boolean          mIsCache;
-    private final IBaseView        mBaseView;
-    private final String           mUrl;
-    private       ObserverCallBack mCallBack;
+    private final boolean                     mIsCache;
+    private final IBaseRefreshAndLoadMoreView mBaseView;
+    private final String                      mUrl;
+    private final boolean                     mIsLoadMore;
+    private       ObserverCallBack            mCallBack;
 
-    public NoProgressObserver(boolean isCache, String url, IBaseView baseView, ObserverCallBack callBack) {
+    public NoProgressObserver(boolean isCache, boolean isLoadMore, String url, IBaseRefreshAndLoadMoreView<T> baseView, ObserverCallBack callBack) {
         mIsCache = isCache;
+        mIsLoadMore = isLoadMore;
         mUrl = url;
         mBaseView = baseView;
         mCallBack = callBack;
@@ -36,9 +38,14 @@ public class NoProgressObserver<T> extends ResourceObserver<T> {
             /*获取缓存数据*/
             CookieResult cookieResult = CookieDbUtil.getInstance().queryCookieBy(mUrl);
             if (cookieResult == null) {
-                ErrorHandler.handleError(e, mBaseView);
-                if (mCallBack != null) {
-                    mCallBack.onError(e);
+                if (mIsLoadMore) {
+                    mBaseView.showTip("无网络");
+                    mBaseView.afterLoadMoreError(e);
+                } else {
+                    ErrorHandler.handleError(e, mBaseView);
+                    if (mCallBack != null) {
+                        mCallBack.onError(e);
+                    }
                 }
             } else {
                 String result = cookieResult.getResult();

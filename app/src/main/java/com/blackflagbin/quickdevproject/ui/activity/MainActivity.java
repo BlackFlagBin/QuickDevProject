@@ -74,8 +74,13 @@ public class MainActivity extends BaseActivity<ApiService, IMainPresenter, List<
 
     @Override
     public void afterLoadMoreError(Throwable e) {
-        mAdapter.loadMoreComplete();
-        mSwipeRefresh.setEnabled(true);
+        mIsLoadComplete = true;
+        if (mAdapter != null) {
+            mAdapter.loadMoreComplete();
+        }
+        if (mSwipeRefresh != null) {
+            mSwipeRefresh.setEnabled(true);
+        }
     }
 
     @Override
