@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="grey">#999999</color>
+    <color name="grey_dark">#666666</color>
+    <color name="grey_light">#C0C0C0</color>
+    <color name="grey_light_alpha">#F7F7F7</color>
+    <color name="purple">#5D6CFB</color>
+    <color name="purple_light">#C3D3FD</color>
+    <color name="white">#FFFFFF</color>
+    <color name="blue">#7392E6</color>
+    <color name="blue_light">#D7E2FC</color>
+    <color name="black">#333333</color>
+    <color name="black_dark">#1A1A1A</color>
+    <color name="red">#EF5847</color>
+
+    <color name="grey_background">#F0F0F0</color>
+    <color name="black_background">#141415</color>
+    <color name="black_background_light">#191A1C</color>
+
+    <color name="colorDefault">#7392E6</color>
+    <color name="colorPrimary">@color/blue</color>
+    <color name="colorPrimaryDark">@color/blue</color>
+    <color name="colorAccent">@color/blue</color>
+
+
+    <color name="swiperefresh_color1">#ff00ddff</color>
+    <color name="swiperefresh_color2">#ffffbb33</color>
+    <color name="swiperefresh_color3">#ffff4444</color>
+    <color name="swiperefresh_color4">#ffaa66cc</color>
+
+</resources>
