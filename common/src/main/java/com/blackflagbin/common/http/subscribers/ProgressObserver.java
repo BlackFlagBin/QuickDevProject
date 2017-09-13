@@ -5,6 +5,7 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 
 import com.blackflagbin.common.base.IBaseRefreshAndLoadMoreView;
+import com.blackflagbin.common.base.IBaseView;
 import com.blackflagbin.common.entity.http.CookieResult;
 import com.blackflagbin.common.http.ErrorHandler;
 import com.blackflagbin.common.http.progress.ProgressCancelListener;
@@ -15,16 +16,16 @@ import io.reactivex.observers.ResourceObserver;
 
 public class ProgressObserver<T> extends ResourceObserver<T> implements ProgressCancelListener {
 
-    private final IBaseRefreshAndLoadMoreView mBaseView;
-    private final boolean                     mIsCache;
-    private final String                      mUrl;
-    private final boolean                     mIsLoadMore;
-    private       ObserverCallBack            mCallBack;
-    private       ProgressDialogHandler       mProgressDialogHandler;
+    private final IBaseView             mBaseView;
+    private final boolean               mIsCache;
+    private final String                mUrl;
+    private final boolean               mIsLoadMore;
+    private       ObserverCallBack      mCallBack;
+    private       ProgressDialogHandler mProgressDialogHandler;
 
     private Context mContext;
 
-    public ProgressObserver(boolean isCache, boolean isLoadMore, String url, IBaseRefreshAndLoadMoreView baseView, ObserverCallBack callBack) {
+    public ProgressObserver(boolean isCache, boolean isLoadMore, String url, IBaseView baseView, ObserverCallBack callBack) {
         if (baseView instanceof Activity) {
             mContext = (Context) baseView;
         }
@@ -58,8 +59,10 @@ public class ProgressObserver<T> extends ResourceObserver<T> implements Progress
             CookieResult cookieResult = CookieDbUtil.getInstance().queryCookieBy(mUrl);
             if (cookieResult == null) {
                 if (mIsLoadMore) {
-                    mBaseView.showTip("无网络");
-                    mBaseView.afterLoadMoreError(e);
+                    if (mBaseView instanceof IBaseRefreshAndLoadMoreView) {
+                        mBaseView.showTip("无网络");
+                        ((IBaseRefreshAndLoadMoreView) mBaseView).afterLoadMoreError(e);
+                    }
                 } else {
                     ErrorHandler.handleError(e, mBaseView);
                     if (mCallBack != null) {
