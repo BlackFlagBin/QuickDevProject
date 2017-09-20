@@ -33,7 +33,7 @@ public class MainPresenter extends BasePresenter<MainContract.IMainModel, MainCo
     }
 
     @Override
-    public Disposable getDataList(int pageNo) {
+    public Disposable initData(int pageNo) {
         String url = "http://gank.io/api/data/" + URLEncoder.encode("福利") + "/10/" + pageNo;
         if (pageNo == 1) {
             mView.beforeInitData();
@@ -57,10 +57,10 @@ public class MainPresenter extends BasePresenter<MainContract.IMainModel, MainCo
                         @Override
                         public void onError(Throwable e) {
                             mView.dismissLoading();
+                            mView.showErrorView("网络异常");
                         }
                     }));
         } else {
-
             return mModel.getDataList(pageNo)
                     .subscribeWith(new NoProgressObserver<List<Entity>>(true, true, url, mView, new ObserverCallBack<List<Entity>>() {
                         @Override
@@ -78,11 +78,15 @@ public class MainPresenter extends BasePresenter<MainContract.IMainModel, MainCo
 
                         @Override
                         public void onError(Throwable e) {
-                            mView.afterLoadMoreError(e);
                         }
                     }));
         }
 
 
+    }
+
+    @Override
+    public Disposable initData() {
+        return initData(1);
     }
 }

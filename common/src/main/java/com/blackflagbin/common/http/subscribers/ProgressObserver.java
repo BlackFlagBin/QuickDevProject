@@ -55,7 +55,6 @@ public class ProgressObserver<T> extends ResourceObserver<T> implements Progress
     @Override
     public void onError(Throwable e) {
         if (mIsCache) {
-            /*获取缓存数据*/
             CookieResult cookieResult = CookieDbUtil.getInstance().queryCookieBy(mUrl);
             if (cookieResult == null) {
                 if (mIsLoadMore) {
@@ -70,6 +69,7 @@ public class ProgressObserver<T> extends ResourceObserver<T> implements Progress
                     }
                 }
             } else {
+                mBaseView.showTip("无网络");
                 String result = cookieResult.getResult();
                 if (mCallBack != null) {
                     mCallBack.onCacheNext(result);
@@ -77,8 +77,16 @@ public class ProgressObserver<T> extends ResourceObserver<T> implements Progress
             }
         } else {
             ErrorHandler.handleError(e, mBaseView);
-            if (mCallBack != null) {
-                mCallBack.onError(e);
+            if (mIsLoadMore) {
+                if (mBaseView instanceof IBaseRefreshAndLoadMoreView) {
+                    mBaseView.showTip("无网络");
+                    ((IBaseRefreshAndLoadMoreView) mBaseView).afterLoadMoreError(e);
+                }
+            } else {
+                ErrorHandler.handleError(e, mBaseView);
+                if (mCallBack != null) {
+                    mCallBack.onError(e);
+                }
             }
         }
         dismissProgressDialog();

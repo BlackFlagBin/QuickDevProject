@@ -2,12 +2,17 @@ package com.blackflagbin.common.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.blackflagbin.common.R;
 import com.blackflagbin.common.http.HttpProvider;
 import com.blankj.utilcode.util.SPUtils;
+import com.kennyc.view.MultiStateView;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -18,14 +23,22 @@ import io.reactivex.disposables.Disposable;
  * Created by blackflagbin on 2017/6/28.
  */
 
-public abstract class BaseActivity<A , P extends IBasePresenter,D> extends AppCompatActivity implements IBaseView<D> {
+public abstract class BaseActivity<A, P extends IBasePresenter, D> extends AppCompatActivity implements IBaseView<D>,
+        SwipeRefreshLayout.OnRefreshListener {
 
 
-    public  P                   mPresenter;
-    public  SPUtils             mSPUtils;
-    public  A                   mApiService;
-    private CompositeDisposable mCompositeDisposable;
-    private Unbinder            mUnbinder;
+    protected P                   mPresenter;
+    protected SPUtils             mSPUtils;
+    protected A                   mApiService;
+    protected SwipeRefreshLayout  mSwipeRefresh;
+    protected CompositeDisposable mCompositeDisposable;
+    protected Unbinder            mUnbinder;
+    protected MultiStateView      mMultiStateView;
+    protected View                mErrorView;
+    protected TextView            mTvErrorMsg;
+    protected View                mBtErrorRetry;
+    protected View                mEmptyView;
+    protected View                mBtEmptyRetry;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,7 +48,25 @@ public abstract class BaseActivity<A , P extends IBasePresenter,D> extends AppCo
         mCompositeDisposable = new CompositeDisposable();
         mApiService = (A) HttpProvider.getInstance().provideApiService();
         mSPUtils = SPUtils.getInstance();
+
         mUnbinder = ButterKnife.bind(this);
+
+        mSwipeRefresh = getSwipeRefreshView();
+        if (mSwipeRefresh != null) {
+            mSwipeRefresh.setOnRefreshListener(this);
+        }
+        mMultiStateView = getMultiStateView();
+        mErrorView = mMultiStateView.getView(MultiStateView.VIEW_STATE_ERROR);
+        mBtErrorRetry = mErrorView.findViewById(R.id.bt_retry);
+        mEmptyView = mMultiStateView.getView(MultiStateView.VIEW_STATE_EMPTY);
+        mBtEmptyRetry = mEmptyView.findViewById(R.id.bt_retry);
+        mBtErrorRetry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
+                mPresenter.initData();
+            }
+        });
         init();
     }
 
@@ -50,10 +81,21 @@ public abstract class BaseActivity<A , P extends IBasePresenter,D> extends AppCo
         }
     }
 
+    protected abstract SwipeRefreshLayout getSwipeRefreshView();
+
+    @Override
+    public void onRefresh() {
+        if (mSwipeRefresh != null) {
+            Disposable disposable = mPresenter.initData();
+            addDisposable(disposable);
+        }
+    }
+
+    protected abstract MultiStateView getMultiStateView();
+
     protected abstract int getLayoutResId();
 
     protected abstract P getPresenter();
-
 
     /**
      * 在数据加载之前的一些初始化
@@ -67,7 +109,7 @@ public abstract class BaseActivity<A , P extends IBasePresenter,D> extends AppCo
     }
 
     @Override
-    public void startActivity(String url, Bundle bundle) {
+    public void startActivity(String url, @Nullable Bundle bundle) {
         if (bundle == null) {
             ARouter.getInstance().build(url).navigation();
         } else {
@@ -84,4 +126,36 @@ public abstract class BaseActivity<A , P extends IBasePresenter,D> extends AppCo
     public void showTip(String tipMsg) {
         Toast.makeText(this, tipMsg, Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    public void showLoading() {
+        if (mSwipeRefresh != null) {
+            mSwipeRefresh.setRefreshing(true);
+        }
+    }
+
+    @Override
+    public void dismissLoading() {
+        if (mSwipeRefresh != null) {
+            mSwipeRefresh.setRefreshing(false);
+        }
+    }
+
+    @Override
+    public void showSuccessView(D data) {
+        mMultiStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
+        showContentView(data);
+    }
+
+    @Override
+    public void showEmptyView() {
+        mMultiStateView.setViewState(MultiStateView.VIEW_STATE_EMPTY);
+    }
+
+    @Override
+    public void showErrorView(String errorMsg) {
+        mMultiStateView.setViewState(MultiStateView.VIEW_STATE_ERROR);
+    }
+
+    protected abstract void showContentView(D data);
 }

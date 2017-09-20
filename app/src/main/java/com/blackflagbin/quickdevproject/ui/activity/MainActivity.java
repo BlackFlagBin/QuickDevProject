@@ -1,14 +1,15 @@
 package com.blackflagbin.quickdevproject.ui.activity;
 
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.blackflagbin.common.base.BaseActivity;
+import com.blackflagbin.common.base.BaseRefreshAndLoadMoreActivity;
+import com.blackflagbin.common.util.CookieDbUtil;
 import com.blackflagbin.quickdevproject.R;
 import com.blackflagbin.quickdevproject.common.entity.http.Entity;
 import com.blackflagbin.quickdevproject.common.http.ApiService;
@@ -25,96 +26,25 @@ import butterknife.BindView;
 import io.reactivex.disposables.Disposable;
 
 @Route(path = "QuickDevProject/MainActivity")
-public class MainActivity extends BaseActivity<ApiService, IMainPresenter, List<Entity>> implements MainContract.IMainView,
-        SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
+public class MainActivity extends BaseRefreshAndLoadMoreActivity<ApiService, IMainPresenter, List<Entity>> implements MainContract.IMainView {
 
-    private static int PAGE_SIZE = 10;
     @BindView(R.id.rv_list)
-    RecyclerView       mRvList;
-    @BindView(R.id.swipe_refresh)
-    SwipeRefreshLayout mSwipeRefresh;
+    RecyclerView    mRvList;
+    @BindView(R.id.tv_middle)
+    TextView        mTvMiddle;
+    @BindView(R.id.bt_delete)
+    AppCompatButton mBtDelete;
     @BindView(R.id.multi_state_view)
-    MultiStateView     mMultiStateView;
-    private View     mErrorView;
-    private TextView mTvErrorMsg;
-    private View     mBtErrorRetry;
-    private View     mEmptyView;
-    private View     mBtEmptyRetry;
-    private int mCurPage = 1;
-    private List<Entity>    mData;
-    private MainListAdapter mAdapter;
-    private boolean         mIsLoadComplete;
+    MultiStateView  mMultiStateView;
 
     @Override
-    public void beforeInitData() {
-        if (mAdapter != null) {
-            mAdapter.setEnableLoadMore(false);
-        }
-        mIsLoadComplete = false;
-        mCurPage = 1;
+    protected SwipeRefreshLayout getSwipeRefreshView() {
+        return (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
     }
 
     @Override
-    public void afterLoadMore(List<Entity> data) {
-        if (data != null && data.size() != 0) {
-            mData.addAll(data);
-        }
-
-
-        if (data.size() < PAGE_SIZE) {
-            mIsLoadComplete = true;
-        } else {
-            mIsLoadComplete = false;
-        }
-
-        mCurPage++;
-        mAdapter.loadMoreComplete();
-        mSwipeRefresh.setEnabled(true);
-    }
-
-    @Override
-    public void afterLoadMoreError(Throwable e) {
-        mIsLoadComplete = true;
-        if (mAdapter != null) {
-            mAdapter.loadMoreComplete();
-        }
-        if (mSwipeRefresh != null) {
-            mSwipeRefresh.setEnabled(true);
-        }
-    }
-
-    @Override
-    public void showLoading() {
-        mSwipeRefresh.setRefreshing(true);
-    }
-
-    @Override
-    public void dismissLoading() {
-        mSwipeRefresh.setRefreshing(false);
-    }
-
-    @Override
-    public void showSuccessView(List<Entity> data) {
-        mData = data;
-        mMultiStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
-
-        mAdapter = new MainListAdapter(data);
-        View noDataView = getLayoutInflater().inflate(R.layout.layout_empty, (ViewGroup) mRvList.getParent(), false);
-        mAdapter.setEmptyView(noDataView);
-        mAdapter.setOnLoadMoreListener(this, mRvList);
-
-        mRvList.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-        mRvList.setAdapter(mAdapter);
-    }
-
-    @Override
-    public void showEmptyView() {
-        mMultiStateView.setViewState(MultiStateView.VIEW_STATE_EMPTY);
-    }
-
-    @Override
-    public void showErrorView(String errorMsg) {
-        mMultiStateView.setViewState(MultiStateView.VIEW_STATE_ERROR);
+    protected MultiStateView getMultiStateView() {
+        return (MultiStateView) findViewById(R.id.multi_state_view);
     }
 
     @Override
@@ -129,42 +59,30 @@ public class MainActivity extends BaseActivity<ApiService, IMainPresenter, List<
 
     @Override
     protected void init() {
-        mSwipeRefresh.setOnRefreshListener(this);
-        mErrorView = mMultiStateView.getView(MultiStateView.VIEW_STATE_ERROR);
-        mBtErrorRetry = mErrorView.findViewById(R.id.bt_retry);
-        mEmptyView = mMultiStateView.getView(MultiStateView.VIEW_STATE_EMPTY);
-        mBtEmptyRetry = mEmptyView.findViewById(R.id.bt_retry);
-        mBtErrorRetry.setOnClickListener(new View.OnClickListener() {
+        Disposable disposable = mPresenter.initData(1);
+        addDisposable(disposable);
+    }
+
+    @Override
+    protected void showContentView(List<Entity> data) {
+        mTvMiddle.setText("福利");
+        mBtDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
-                mPresenter.getDataList(1);
+                CookieDbUtil.getInstance().deleteAllCookie();
             }
         });
-        Disposable disposable = mPresenter.getDataList(1);
-        addDisposable(disposable);
+        mRvList.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        mRvList.setAdapter(mAdapter);
     }
 
     @Override
-    public void onRefresh() {
-        Disposable disposable = mPresenter.getDataList(1);
-        addDisposable(disposable);
+    protected BaseQuickAdapter getAdapter(List<Entity> data) {
+        return new MainListAdapter(data);
     }
 
     @Override
-    public void onLoadMoreRequested() {
-        mSwipeRefresh.setEnabled(false);
-        if (mAdapter.getData().size() < PAGE_SIZE) {
-            mAdapter.loadMoreEnd(false);
-            mSwipeRefresh.setEnabled(true);
-        } else {
-            if (mIsLoadComplete) {
-                mAdapter.loadMoreEnd();
-                mSwipeRefresh.setEnabled(true);
-            } else {
-                Disposable disposable = mPresenter.getDataList(mCurPage + 1);
-                addDisposable(disposable);
-            }
-        }
+    protected RecyclerView getRecyclerView() {
+        return mRvList;
     }
 }

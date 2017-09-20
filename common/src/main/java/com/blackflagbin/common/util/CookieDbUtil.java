@@ -94,6 +94,13 @@ public class CookieDbUtil {
     }
 
 
+    public void deleteAllCookie() {
+        DaoMaster daoMaster = new DaoMaster(getWritableDatabase());
+        DaoSession daoSession = daoMaster.newSession();
+        CookieResultDao downInfoDao = daoSession.getCookieResultDao();
+        downInfoDao.deleteAll();
+    }
+
     public CookieResult queryCookieBy(String url) {
         DaoMaster daoMaster = new DaoMaster(getReadableDatabase());
         DaoSession daoSession = daoMaster.newSession();
@@ -115,4 +122,6 @@ public class CookieDbUtil {
         QueryBuilder<CookieResult> qb = downInfoDao.queryBuilder();
         return qb.list();
     }
+
+
 }

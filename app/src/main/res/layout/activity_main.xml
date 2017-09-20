@@ -19,20 +19,32 @@
             app:msv_loadingView="@layout/layout_loading"
             app:msv_viewState="loading">
 
-            <android.support.v4.widget.SwipeRefreshLayout
-                android:id="@+id/swipe_refresh"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rv_list"
+                <include
+                    android:id="@+id/toolbar"
+                    layout="@layout/layout_toolbar"/>
+
+                <android.support.v4.widget.SwipeRefreshLayout
+                    android:id="@+id/swipe_refresh"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                </android.support.v7.widget.RecyclerView>
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                    </android.support.v7.widget.RecyclerView>
 
 
-            </android.support.v4.widget.SwipeRefreshLayout>
+                </android.support.v4.widget.SwipeRefreshLayout>
+            </LinearLayout>
+
+
         </com.kennyc.view.MultiStateView>
     </LinearLayout>
 

@@ -43,16 +43,14 @@ public class ErrorHandler {
             }
         } else {
             if (e instanceof SocketTimeoutException) {
-                baseView.showErrorView("网络请求超时，请检查您的网络状态");
+                baseView.showTip("网络请求超时，请检查您的网络状态");
             } else if (e instanceof ConnectException) {
-                baseView.showErrorView("网络中断，请检查您的网络状态");
-
+                baseView.showTip("网络中断，请检查您的网络状态");
             } else if (e instanceof UnknownHostException) {
-                baseView.showErrorView("网络异常，请检查您的网络状态");
-
+                baseView.showTip("网络异常，请检查您的网络状态");
             } else {
                 e.printStackTrace();
-                baseView.showErrorView("出现了未知错误，请尝试从新打开App或者向我们反馈");
+                baseView.showTip("出现了未知错误，请尝试从新打开App或者向我们反馈");
             }
         }
     }
