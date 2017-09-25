@@ -47,8 +47,6 @@ public abstract class BaseActivity<A, P extends IBasePresenter, D> extends AppCo
         mPresenter = getPresenter();
         mCompositeDisposable = new CompositeDisposable();
         mApiService = (A) HttpProvider.getInstance().provideApiService();
-        mSPUtils = SPUtils.getInstance();
-
         mUnbinder = ButterKnife.bind(this);
 
         mSwipeRefresh = getSwipeRefreshView();

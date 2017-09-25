@@ -1,6 +1,5 @@
 package com.blackflagbin.common.http;
 
-import com.blackflagbin.common.base.IBaseApiService;
 import com.blackflagbin.common.facade.CommonLibrary;
 import com.blackflagbin.common.http.interceptor.CookieInterceptor;
 import com.blankj.utilcode.util.SPUtils;
@@ -21,7 +20,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by blackflagbin on 2017/9/11.
  */
 
-public class HttpProvider<T> {
+public class HttpProvider {
 
     //默认超时时间
     public static final long DEFAULT_MILLISECONDS = 15;
@@ -32,10 +31,20 @@ public class HttpProvider<T> {
         return InnerClass.instance;
     }
 
-    public T provideApiService() {
+    public <P> P provideApiService() {
 
-        return (T) new Retrofit.Builder().client(provideOkHttpClient())
+        return (P) new Retrofit.Builder().client(provideOkHttpClient())
                 .baseUrl(CommonLibrary.getInstance().getBaseUrl())
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .build()
+                .create(CommonLibrary.getInstance().getApiClass());
+    }
+
+    public <P> P provideApiService(String baseUrl) {
+
+        return (P) new Retrofit.Builder().client(provideOkHttpClient())
+                .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()

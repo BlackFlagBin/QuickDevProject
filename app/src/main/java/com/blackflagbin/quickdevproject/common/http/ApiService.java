@@ -1,7 +1,8 @@
 package com.blackflagbin.quickdevproject.common.http;
 
-import com.blackflagbin.common.entity.http.HttpResultEntity;
+import com.blackflagbin.common.http.transformer.IHttpResultEntity;
 import com.blackflagbin.quickdevproject.common.entity.http.Entity;
+import com.blackflagbin.quickdevproject.common.entity.http.HttpResultEntity;
 
 import java.util.List;
 

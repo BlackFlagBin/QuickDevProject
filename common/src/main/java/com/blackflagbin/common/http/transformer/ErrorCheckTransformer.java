@@ -1,27 +1,26 @@
 package com.blackflagbin.common.http.transformer;
 
-import com.blackflagbin.common.entity.http.HttpResultEntity;
 import com.blackflagbin.common.http.ApiException;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableTransformer;
 import io.reactivex.functions.Function;
 
-public class ErrorCheckTransformer<T> implements ObservableTransformer<HttpResultEntity<T>, T> {
+public class ErrorCheckTransformer<T> implements ObservableTransformer<IHttpResultEntity<T>, T> {
 
     @Override
-    public Observable<T> apply(Observable<HttpResultEntity<T>> httpResultObservable) {
-        return httpResultObservable.map(new Function<HttpResultEntity<T>, T>() {
+    public Observable<T> apply(Observable<IHttpResultEntity<T>> httpResultObservable) {
+        return httpResultObservable.map(new Function<IHttpResultEntity<T>, T>() {
             @Override
-            public T apply(HttpResultEntity<T> httpResult) {
-                if (httpResult.isError()) {
-                    throw new ApiException(httpResult.getCode(), httpResult.getMessage());
+            public T apply(IHttpResultEntity<T> httpResult) {
+                if (!httpResult.isSuccess()) {
+                    throw new ApiException(httpResult.getErrorCode(), httpResult.getErrorMessage());
                 }
 
-                if (httpResult.getResults() == null) {
+                if (httpResult.getResult() == null) {
                     return (T) new Object();
                 } else {
-                    return httpResult.getResults();
+                    return httpResult.getResult();
                 }
             }
         });

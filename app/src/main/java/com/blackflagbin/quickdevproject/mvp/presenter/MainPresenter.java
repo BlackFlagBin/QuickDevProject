@@ -1,10 +1,10 @@
 package com.blackflagbin.quickdevproject.mvp.presenter;
 
 import com.blackflagbin.common.base.BasePresenter;
-import com.blackflagbin.common.entity.http.HttpResultEntity;
 import com.blackflagbin.common.http.subscribers.NoProgressObserver;
 import com.blackflagbin.common.http.subscribers.ObserverCallBack;
 import com.blackflagbin.quickdevproject.common.entity.http.Entity;
+import com.blackflagbin.quickdevproject.common.entity.http.HttpResultEntity;
 import com.blackflagbin.quickdevproject.mvp.contract.MainContract;
 import com.blackflagbin.quickdevproject.mvp.model.MainModel;
 import com.google.gson.Gson;
@@ -50,7 +50,7 @@ public class MainPresenter extends BasePresenter<MainContract.IMainModel, MainCo
                             Type jsonType = new TypeToken<HttpResultEntity<List<Entity>>>() {
                             }.getType();
                             HttpResultEntity<List<Entity>> resultEntity = new Gson().fromJson(dataString, jsonType);
-                            mView.showSuccessView(resultEntity.getResults());
+                            mView.showSuccessView(resultEntity.getResult());
                             mView.dismissLoading();
                         }
 
@@ -73,7 +73,7 @@ public class MainPresenter extends BasePresenter<MainContract.IMainModel, MainCo
                             Type jsonType = new TypeToken<HttpResultEntity<List<Entity>>>() {
                             }.getType();
                             HttpResultEntity<List<Entity>> resultEntity = new Gson().fromJson(dataString, jsonType);
-                            mView.afterLoadMore(resultEntity.getResults());
+                            mView.afterLoadMore(resultEntity.getResult());
                         }
 
                         @Override
