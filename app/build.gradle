@@ -15,25 +15,9 @@ android {
         }
         multiDexEnabled true
     }
-    //修改生成的apk名字
-    def appName;
-    applicationVariants.all { variant ->
-        variant.outputs.each { output ->
-            def oldFile = output.outputFile
-            def newName = '';
-            if (variant.buildType.name.equals('release')) {
-                def releaseApkName = 'release.apk'
-                output.outputFile = new File(oldFile.parent, releaseApkName)
-            }
-            if (variant.buildType.name.equals('debug')) {
-                def releaseApkName = 'debug.apk'
-                output.outputFile = new File(oldFile.parent, releaseApkName)
-            }
-        }
-    }
+
     aaptOptions {
         cruncherEnabled false
-        useNewCruncher false
     }
     lintOptions {
         abortOnError false
@@ -51,17 +35,13 @@ android {
             buildConfigField "String", "APP_URL", "\"http://gank.io/api/\""
             buildConfigField "String", "EXTRA_URL", " \"\" "
             signingConfig signingConfigs.release
-            appName = "debug"
             minifyEnabled false
-            manifestPlaceholders = [APPLICATION_NAME: "${appName}"]
         }
         release {
             buildConfigField "String", "APP_URL", "\"http://gank.io/api/\""
             buildConfigField "String", "EXTRA_URL", "\"\""
             minifyEnabled false
             signingConfig signingConfigs.release
-            appName = "release"
-            manifestPlaceholders = [APPLICATION_NAME: "${appName}"]
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -78,12 +58,14 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile project(':common')
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support:design:25.3.1'
+    compile 'com.android.support:appcompat-v7:25.4.0'
+    compile 'com.android.support:design:25.4.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:multidex:1.0.1'
-    compile 'com.jakewharton:butterknife:8.5.1'
+    compile 'com.jakewharton:butterknife:8.7.0'
     compile 'javax.annotation:javax.annotation-api:1.2'
     testCompile 'junit:junit:4.12'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.7.0'
+    compile 'com.alibaba:arouter-annotation:1.0.3'
+    compile 'io.reactivex.rxjava2:rxjava:2.1.0'
 }

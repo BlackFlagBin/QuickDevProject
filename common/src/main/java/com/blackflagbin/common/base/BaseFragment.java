@@ -8,7 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.blackflagbin.common.R;
 import com.blackflagbin.common.http.HttpProvider;
 import com.blankj.utilcode.util.SPUtils;
@@ -23,7 +25,8 @@ import io.reactivex.disposables.Disposable;
  * Created by blackflagbin on 2017/6/28.
  */
 
-public abstract class BaseFragment<A, P extends IBasePresenter, D> extends Fragment implements IBaseView<D>, SwipeRefreshLayout.OnRefreshListener {
+public abstract class BaseFragment<A, P extends IBasePresenter, D> extends Fragment implements
+        IBaseView<D>, SwipeRefreshLayout.OnRefreshListener {
 
 
     protected P                   mPresenter;
@@ -43,7 +46,8 @@ public abstract class BaseFragment<A, P extends IBasePresenter, D> extends Fragm
     @Nullable
     @Override
     public View onCreateView(
-            LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+            LayoutInflater inflater, @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
         mRootView = inflater.inflate(getLayoutResId(), container, false);
         mPresenter = getPresenter();
         mSPUtils = SPUtils.getInstance();
@@ -108,6 +112,25 @@ public abstract class BaseFragment<A, P extends IBasePresenter, D> extends Fragm
         if (disposable != null) {
             mCompositeDisposable.add(disposable);
         }
+    }
+
+    @Override
+    public void startActivity(String url, @Nullable Bundle bundle) {
+        if (bundle == null) {
+            ARouter.getInstance().build(url).navigation();
+        } else {
+            ARouter.getInstance().build(url).with(bundle).navigation();
+        }
+    }
+
+    @Override
+    public void finishActivity() {
+        getActivity().finish();
+    }
+
+    @Override
+    public void showTip(String tipMsg) {
+        Toast.makeText(getActivity(), tipMsg, Toast.LENGTH_SHORT).show();
     }
 
     @Override

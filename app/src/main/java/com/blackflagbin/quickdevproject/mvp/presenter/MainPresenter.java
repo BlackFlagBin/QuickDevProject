@@ -34,7 +34,7 @@ public class MainPresenter extends BasePresenter<MainContract.IMainModel, MainCo
 
     @Override
     public Disposable initData(int pageNo) {
-        String url = "http://gank.io/api/data/" + URLEncoder.encode("福利") + "/10/" + pageNo;
+        String url = "http://www.gank.io/api/data/" + URLEncoder.encode("福利") + "/10/" + pageNo;
         if (pageNo == 1) {
             mView.beforeInitData();
             return mModel.getDataList(pageNo)

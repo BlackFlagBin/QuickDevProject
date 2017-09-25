@@ -2,10 +2,11 @@ package com.blackflagbin.quickdevproject.ui.activity;
 
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.blackflagbin.common.base.BaseRefreshAndLoadMoreActivity;
@@ -72,8 +73,19 @@ public class MainActivity extends BaseRefreshAndLoadMoreActivity<ApiService, IMa
                 CookieDbUtil.getInstance().deleteAllCookie();
             }
         });
-        mRvList.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-        mRvList.setAdapter(mAdapter);
+        mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                switch (view.getId()) {
+                    case R.id.tv_delete:
+                        mAdapter.notifyItemRemoved(position);
+                        break;
+                    case R.id.iv:
+                        Toast.makeText(MainActivity.this, "福利" + position, Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
     }
 
     @Override
@@ -84,5 +96,10 @@ public class MainActivity extends BaseRefreshAndLoadMoreActivity<ApiService, IMa
     @Override
     protected RecyclerView getRecyclerView() {
         return mRvList;
+    }
+
+    @Override
+    protected RecyclerView.LayoutManager getLayoutManager() {
+        return new LinearLayoutManager(this);
     }
 }

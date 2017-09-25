@@ -5,7 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.blackflagbin.common.R;
-import com.blackflagbin.common.widget.CustomLoadMoreView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.kennyc.view.MultiStateView;
 
@@ -14,10 +13,10 @@ import java.util.List;
 import io.reactivex.disposables.Disposable;
 
 /**
- * Created by blackflagbin on 2017/9/20.
+ * Created by blackflagbin on 2017/9/22.
  */
 
-public abstract class BaseRefreshAndLoadMoreActivity<A, P extends IBaseRefreshAndLoadMorePresenter, D> extends BaseActivity<A, P, D> implements
+abstract public class BaseRefreshAndLoadMoreFragment<A, P extends IBaseRefreshAndLoadMorePresenter, D> extends BaseFragment<A, P, D> implements
         BaseQuickAdapter.RequestLoadMoreListener, IBaseRefreshAndLoadMoreView<D> {
     public static int PAGE_SIZE = 10;
     protected BaseQuickAdapter mAdapter;
@@ -40,9 +39,8 @@ public abstract class BaseRefreshAndLoadMoreActivity<A, P extends IBaseRefreshAn
         mRecyclerView = getRecyclerView();
         mLayoutManager = getLayoutManager();
         mRecyclerView.setLayoutManager(mLayoutManager);
-        View noDataView = getLayoutInflater().inflate(R.layout.layout_empty, (ViewGroup) mRecyclerView.getParent(), false);
+        View noDataView = getActivity().getLayoutInflater().inflate(R.layout.layout_empty, (ViewGroup) mRecyclerView.getParent(), false);
         mAdapter.setEmptyView(noDataView);
-        mAdapter.setLoadMoreView(new CustomLoadMoreView());
         mAdapter.setOnLoadMoreListener(this, mRecyclerView);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.disableLoadMoreIfNotFullPage();
@@ -52,6 +50,7 @@ public abstract class BaseRefreshAndLoadMoreActivity<A, P extends IBaseRefreshAn
     protected abstract BaseQuickAdapter getAdapter(D data);
 
     protected abstract RecyclerView getRecyclerView();
+
 
     protected abstract RecyclerView.LayoutManager getLayoutManager();
 
@@ -101,4 +100,5 @@ public abstract class BaseRefreshAndLoadMoreActivity<A, P extends IBaseRefreshAn
             }
         }
     }
+
 }

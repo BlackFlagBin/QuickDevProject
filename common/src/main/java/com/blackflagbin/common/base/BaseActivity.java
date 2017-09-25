@@ -97,9 +97,7 @@ public abstract class BaseActivity<A, P extends IBasePresenter, D> extends AppCo
 
     protected abstract P getPresenter();
 
-    /**
-     * 在数据加载之前的一些初始化
-     */
+
     protected abstract void init();
 
     protected void addDisposable(Disposable disposable) {

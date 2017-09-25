@@ -24,7 +24,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        CommonLibrary.getInstance().init(this, BuildConfig.APP_URL, ApiService.class, new OnTokenExpiredListener() {
+        CommonLibrary.getInstance().init(this, "http://www.gank.io/", ApiService.class, new OnTokenExpiredListener() {
             @Override
             public void onTokenExpired() {
 

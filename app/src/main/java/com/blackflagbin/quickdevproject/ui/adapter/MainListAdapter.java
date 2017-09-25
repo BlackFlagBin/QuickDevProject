@@ -5,6 +5,7 @@ import android.widget.ImageView;
 import com.blackflagbin.quickdevproject.R;
 import com.blackflagbin.quickdevproject.common.entity.http.Entity;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
@@ -24,6 +25,8 @@ public class MainListAdapter extends BaseQuickAdapter<Entity, BaseViewHolder> {
     @Override
     protected void convert(BaseViewHolder helper, Entity item) {
         ImageView iv = helper.getView(R.id.iv);
-        Glide.with(iv.getContext()).load(item.url).into(iv);
+        Glide.with(iv.getContext()).load(item.url).diskCacheStrategy(DiskCacheStrategy.SOURCE).centerCrop().into(iv);
+        helper.addOnClickListener(R.id.tv_delete);
+        helper.addOnClickListener(R.id.iv);
     }
 }
