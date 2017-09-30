@@ -25,8 +25,7 @@ import io.reactivex.disposables.Disposable;
  * Created by blackflagbin on 2017/6/28.
  */
 
-public abstract class BaseFragment<A, P extends IBasePresenter, D> extends Fragment implements
-        IBaseView<D>, SwipeRefreshLayout.OnRefreshListener {
+public abstract class BaseFragment<A, P extends IBasePresenter, D> extends Fragment implements IBaseView<D>, SwipeRefreshLayout.OnRefreshListener {
 
 
     protected P                   mPresenter;
@@ -46,8 +45,7 @@ public abstract class BaseFragment<A, P extends IBasePresenter, D> extends Fragm
     @Nullable
     @Override
     public View onCreateView(
-            LayoutInflater inflater, @Nullable ViewGroup container,
-            @Nullable Bundle savedInstanceState) {
+            LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mRootView = inflater.inflate(getLayoutResId(), container, false);
         mPresenter = getPresenter();
         mSPUtils = SPUtils.getInstance();
@@ -60,17 +58,19 @@ public abstract class BaseFragment<A, P extends IBasePresenter, D> extends Fragm
             mSwipeRefresh.setOnRefreshListener(this);
         }
         mMultiStateView = getMultiStateView();
-        mErrorView = mMultiStateView.getView(MultiStateView.VIEW_STATE_ERROR);
-        mBtErrorRetry = mErrorView.findViewById(R.id.bt_retry);
-        mEmptyView = mMultiStateView.getView(MultiStateView.VIEW_STATE_EMPTY);
-        mBtEmptyRetry = mEmptyView.findViewById(R.id.bt_retry);
-        mBtErrorRetry.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
-                mPresenter.initData();
-            }
-        });
+        if (mMultiStateView != null) {
+            mErrorView = mMultiStateView.getView(MultiStateView.VIEW_STATE_ERROR);
+            mBtErrorRetry = mErrorView.findViewById(R.id.bt_retry);
+            mEmptyView = mMultiStateView.getView(MultiStateView.VIEW_STATE_EMPTY);
+            mBtEmptyRetry = mEmptyView.findViewById(R.id.bt_retry);
+            mBtErrorRetry.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
+                    mPresenter.initData();
+                }
+            });
+        }
         init(mRootView);
         return mRootView;
     }

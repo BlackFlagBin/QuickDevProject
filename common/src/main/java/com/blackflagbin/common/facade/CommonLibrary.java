@@ -1,8 +1,10 @@
 package com.blackflagbin.common.facade;
 
+import android.app.Application;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.blackflagbin.common.listener.OnTokenExpiredListener;
 import com.blankj.utilcode.util.Utils;
 
@@ -40,9 +42,10 @@ public class CommonLibrary {
     }
 
     public void init(
-            @NonNull Context context, @NonNull String baseUrl, @NonNull Class apiClass, @NonNull OnTokenExpiredListener onTokenExpiredListener) {
+            @NonNull Application context, @NonNull String baseUrl, @NonNull Class apiClass, @NonNull OnTokenExpiredListener onTokenExpiredListener) {
         mContext = context;
         Utils.init(context);
+        ARouter.init(context);
         mBaseUrl = baseUrl;
         mApiClass = apiClass;
         mOnTokenExpiredListener = onTokenExpiredListener;

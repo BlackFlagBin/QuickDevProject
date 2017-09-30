@@ -1,5 +1,6 @@
 package com.blackflagbin.quickdevproject.ui.activity;
 
+import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,7 +27,7 @@ import java.util.List;
 import butterknife.BindView;
 import io.reactivex.disposables.Disposable;
 
-@Route(path = "QuickDevProject/MainActivity")
+@Route(path = "/QuickDevProject/MainActivity")
 public class MainActivity extends BaseRefreshAndLoadMoreActivity<ApiService, IMainPresenter, List<Entity>> implements MainContract.IMainView {
 
     @BindView(R.id.rv_list)
@@ -35,6 +36,8 @@ public class MainActivity extends BaseRefreshAndLoadMoreActivity<ApiService, IMa
     TextView        mTvMiddle;
     @BindView(R.id.bt_delete)
     AppCompatButton mBtDelete;
+    @BindView(R.id.bt_pic)
+    AppCompatButton mBtPic;
     @BindView(R.id.multi_state_view)
     MultiStateView  mMultiStateView;
 
@@ -71,6 +74,12 @@ public class MainActivity extends BaseRefreshAndLoadMoreActivity<ApiService, IMa
             @Override
             public void onClick(View v) {
                 CookieDbUtil.getInstance().deleteAllCookie();
+            }
+        });
+        mBtPic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this,TakePhotoActivity.class));
             }
         });
         mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {

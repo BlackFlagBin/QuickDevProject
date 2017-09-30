@@ -54,17 +54,19 @@ public abstract class BaseActivity<A, P extends IBasePresenter, D> extends AppCo
             mSwipeRefresh.setOnRefreshListener(this);
         }
         mMultiStateView = getMultiStateView();
-        mErrorView = mMultiStateView.getView(MultiStateView.VIEW_STATE_ERROR);
-        mBtErrorRetry = mErrorView.findViewById(R.id.bt_retry);
-        mEmptyView = mMultiStateView.getView(MultiStateView.VIEW_STATE_EMPTY);
-        mBtEmptyRetry = mEmptyView.findViewById(R.id.bt_retry);
-        mBtErrorRetry.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
-                mPresenter.initData();
-            }
-        });
+        if (mMultiStateView!=null) {
+            mErrorView = mMultiStateView.getView(MultiStateView.VIEW_STATE_ERROR);
+            mBtErrorRetry = mErrorView.findViewById(R.id.bt_retry);
+            mEmptyView = mMultiStateView.getView(MultiStateView.VIEW_STATE_EMPTY);
+            mBtEmptyRetry = mEmptyView.findViewById(R.id.bt_retry);
+            mBtErrorRetry.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
+                    mPresenter.initData();
+                }
+            });
+        }
         init();
     }
 

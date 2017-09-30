@@ -50,6 +50,10 @@ android {
             jniLibs.srcDirs = ['libs']
         }
     }
+
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+    }
 }
 
 dependencies {
@@ -64,8 +68,8 @@ dependencies {
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.jakewharton:butterknife:8.7.0'
     compile 'javax.annotation:javax.annotation-api:1.2'
-    testCompile 'junit:junit:4.12'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.7.0'
     compile 'com.alibaba:arouter-annotation:1.0.3'
     compile 'io.reactivex.rxjava2:rxjava:2.1.0'
+    testCompile 'junit:junit:4.12'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.7.0'
 }

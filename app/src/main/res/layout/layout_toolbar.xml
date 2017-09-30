@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="48dp"
     android:background="@color/white"
-    android:orientation="vertical"
     android:elevation="2dp"
+    android:orientation="vertical"
     app:titleTextColor="@color/black">
 
     <RelativeLayout
@@ -56,11 +56,22 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:textStyle="bold"
                 android:text=""
                 android:textColor="@color/black"
-                android:textSize="@dimen/text_size_16"/>
+                android:textSize="@dimen/text_size_16"
+                android:textStyle="bold"/>
         </LinearLayout>
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/bt_pic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/padding_toolbar_imageview"
+            android:text="enter pic"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            />
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/bt_delete"
@@ -69,8 +80,9 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:padding="@dimen/padding_toolbar_imageview"
-            android:textColor="@color/black"
             android:text="clear cache"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
             />
 
     </RelativeLayout>
