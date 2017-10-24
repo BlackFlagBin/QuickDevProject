@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alibaba.android.arouter.facade.annotation.Route;
 import com.blackflagbin.common.base.BaseRefreshAndLoadMoreActivity;
 import com.blackflagbin.common.util.CookieDbUtil;
 import com.blackflagbin.quickdevproject.R;
@@ -27,7 +26,6 @@ import java.util.List;
 import butterknife.BindView;
 import io.reactivex.disposables.Disposable;
 
-@Route(path = "/QuickDevProject/MainActivity")
 public class MainActivity extends BaseRefreshAndLoadMoreActivity<ApiService, IMainPresenter, List<Entity>> implements MainContract.IMainView {
 
     @BindView(R.id.rv_list)
@@ -74,12 +72,6 @@ public class MainActivity extends BaseRefreshAndLoadMoreActivity<ApiService, IMa
             @Override
             public void onClick(View v) {
                 CookieDbUtil.getInstance().deleteAllCookie();
-            }
-        });
-        mBtPic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,TakePhotoActivity.class));
             }
         });
         mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {

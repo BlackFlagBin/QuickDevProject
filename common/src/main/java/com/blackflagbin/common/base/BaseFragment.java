@@ -1,5 +1,6 @@
 package com.blackflagbin.common.base;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alibaba.android.arouter.launcher.ARouter;
 import com.blackflagbin.common.R;
 import com.blackflagbin.common.http.HttpProvider;
 import com.blankj.utilcode.util.SPUtils;
@@ -38,9 +38,9 @@ public abstract class BaseFragment<A, P extends IBasePresenter, D> extends Fragm
     protected View                mBtErrorRetry;
     protected View                mEmptyView;
     protected View                mBtEmptyRetry;
-    private   View                mRootView;
-    private   Unbinder            mUnbinder;
-    private   CompositeDisposable mCompositeDisposable;
+    protected View                mRootView;
+    protected Unbinder            mUnbinder;
+    protected CompositeDisposable mCompositeDisposable;
 
     @Nullable
     @Override
@@ -115,12 +115,12 @@ public abstract class BaseFragment<A, P extends IBasePresenter, D> extends Fragm
     }
 
     @Override
-    public void startActivity(String url, @Nullable Bundle bundle) {
-        if (bundle == null) {
-            ARouter.getInstance().build(url).navigation();
-        } else {
-            ARouter.getInstance().build(url).with(bundle).navigation();
+    public void startActivity(Class claz, @Nullable Bundle bundle) {
+        Intent intent = new Intent(getActivity(), claz);
+        if (bundle != null) {
+            intent.putExtras(bundle);
         }
+        startActivity(intent);
     }
 
     @Override

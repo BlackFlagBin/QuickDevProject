@@ -1,5 +1,6 @@
 package com.blackflagbin.common.base;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -8,7 +9,6 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alibaba.android.arouter.launcher.ARouter;
 import com.blackflagbin.common.R;
 import com.blackflagbin.common.http.HttpProvider;
 import com.blankj.utilcode.util.SPUtils;
@@ -54,7 +54,7 @@ public abstract class BaseActivity<A, P extends IBasePresenter, D> extends AppCo
             mSwipeRefresh.setOnRefreshListener(this);
         }
         mMultiStateView = getMultiStateView();
-        if (mMultiStateView!=null) {
+        if (mMultiStateView != null) {
             mErrorView = mMultiStateView.getView(MultiStateView.VIEW_STATE_ERROR);
             mBtErrorRetry = mErrorView.findViewById(R.id.bt_retry);
             mEmptyView = mMultiStateView.getView(MultiStateView.VIEW_STATE_EMPTY);
@@ -107,12 +107,12 @@ public abstract class BaseActivity<A, P extends IBasePresenter, D> extends AppCo
     }
 
     @Override
-    public void startActivity(String url, @Nullable Bundle bundle) {
-        if (bundle == null) {
-            ARouter.getInstance().build(url).navigation();
-        } else {
-            ARouter.getInstance().build(url).with(bundle).navigation();
+    public void startActivity(Class claz, @Nullable Bundle bundle) {
+        Intent intent = new Intent(this, claz);
+        if (bundle != null) {
+            intent.putExtras(bundle);
         }
+        startActivity(intent);
     }
 
     @Override

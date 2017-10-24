@@ -22,8 +22,8 @@ abstract public class BaseRefreshAndLoadMoreFragment<A, P extends IBaseRefreshAn
     protected BaseQuickAdapter mAdapter;
     protected boolean mIsLoadComplete = false;
     protected int     mCurPage        = 1;
-    private RecyclerView               mRecyclerView;
-    private RecyclerView.LayoutManager mLayoutManager;
+    protected RecyclerView               mRecyclerView;
+    protected RecyclerView.LayoutManager mLayoutManager;
 
 
     @Override

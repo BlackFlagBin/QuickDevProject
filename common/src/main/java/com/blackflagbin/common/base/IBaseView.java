@@ -8,7 +8,7 @@ import android.support.annotation.Nullable;
  */
 
 public interface IBaseView<T> {
-    void startActivity(String url,@Nullable Bundle bundle);
+    void startActivity(Class claz,@Nullable Bundle bundle);
 
     void finishActivity();
 
