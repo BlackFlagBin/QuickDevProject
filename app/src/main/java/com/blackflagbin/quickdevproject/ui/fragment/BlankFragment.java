@@ -33,7 +33,7 @@ public class BlankFragment extends BaseFragment {
     }
 
     @Override
-    protected void init(View rootView) {
+    protected void init() {
 
     }
 

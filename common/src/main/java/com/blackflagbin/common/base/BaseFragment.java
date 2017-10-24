@@ -52,7 +52,10 @@ public abstract class BaseFragment<A, P extends IBasePresenter, D> extends Fragm
         mApiService = (A) HttpProvider.getInstance().provideApiService();
         mUnbinder = ButterKnife.bind(this, mRootView);
         mCompositeDisposable = new CompositeDisposable();
+        return mRootView;
+    }
 
+    protected void setupView() {
         mSwipeRefresh = getSwipeRefreshView();
         if (mSwipeRefresh != null) {
             mSwipeRefresh.setOnRefreshListener(this);
@@ -71,8 +74,13 @@ public abstract class BaseFragment<A, P extends IBasePresenter, D> extends Fragm
                 }
             });
         }
-        init(mRootView);
-        return mRootView;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setupView();
+        init();
     }
 
     @Override
@@ -103,7 +111,7 @@ public abstract class BaseFragment<A, P extends IBasePresenter, D> extends Fragm
     /**
      * 在数据加载之前的一些初始化
      */
-    protected abstract void init(View rootView);
+    protected abstract void init();
 
 
     protected abstract P getPresenter();

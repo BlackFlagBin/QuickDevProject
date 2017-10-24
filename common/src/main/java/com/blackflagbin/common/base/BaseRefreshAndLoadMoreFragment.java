@@ -1,10 +1,14 @@
 package com.blackflagbin.common.base;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.blackflagbin.common.R;
+import com.blackflagbin.common.widget.CustomLoadMoreView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.kennyc.view.MultiStateView;
 
@@ -25,29 +29,29 @@ abstract public class BaseRefreshAndLoadMoreFragment<A, P extends IBaseRefreshAn
     protected RecyclerView               mRecyclerView;
     protected RecyclerView.LayoutManager mLayoutManager;
 
-
     @Override
-    public void onRefresh() {
-        Disposable disposable = mPresenter.initData(1);
-        addDisposable(disposable);
+    protected void setupView() {
+        super.setupView();
+        mAdapter = getAdapter();
     }
 
     @Override
     public void showSuccessView(D data) {
-        mMultiStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
-        mAdapter = getAdapter(data);
         mRecyclerView = getRecyclerView();
         mLayoutManager = getLayoutManager();
         mRecyclerView.setLayoutManager(mLayoutManager);
-        View noDataView = getActivity().getLayoutInflater().inflate(R.layout.layout_empty, (ViewGroup) mRecyclerView.getParent(), false);
+        View noDataView = getLayoutInflater().inflate(R.layout.layout_empty, (ViewGroup) mRecyclerView.getParent(), false);
         mAdapter.setEmptyView(noDataView);
+        mAdapter.setLoadMoreView(new CustomLoadMoreView());
         mAdapter.setOnLoadMoreListener(this, mRecyclerView);
-        mRecyclerView.setAdapter(mAdapter);
         mAdapter.disableLoadMoreIfNotFullPage();
+        mMultiStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
+        mAdapter.setNewData((List) data);
+        mRecyclerView.setAdapter(mAdapter);
         showContentView(data);
     }
 
-    protected abstract BaseQuickAdapter getAdapter(D data);
+    protected abstract BaseQuickAdapter getAdapter();
 
     protected abstract RecyclerView getRecyclerView();
 

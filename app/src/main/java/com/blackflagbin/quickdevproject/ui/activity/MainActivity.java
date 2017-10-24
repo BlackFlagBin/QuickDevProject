@@ -90,8 +90,8 @@ public class MainActivity extends BaseRefreshAndLoadMoreActivity<ApiService, IMa
     }
 
     @Override
-    protected BaseQuickAdapter getAdapter(List<Entity> data) {
-        return new MainListAdapter(data);
+    protected BaseQuickAdapter getAdapter() {
+        return new MainListAdapter(null);
     }
 
     @Override
