@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blackflagbin.common.R;
+import com.blackflagbin.common.constants.Constants;
 import com.blackflagbin.common.http.HttpProvider;
 import com.blankj.utilcode.util.SPUtils;
 import com.kennyc.view.MultiStateView;
@@ -39,11 +40,16 @@ public abstract class BaseActivity<A, P extends IBasePresenter, D> extends AppCo
     protected View                mBtErrorRetry;
     protected View                mEmptyView;
     protected View                mBtEmptyRetry;
+    private   Bundle              mBundle;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutResId());
+        mBundle = getIntent().getBundleExtra(Constants.BUNDLE);
+        if (mBundle != null) {
+            onExtraBundleReceived(mBundle);
+        }
         mPresenter = getPresenter();
         mCompositeDisposable = new CompositeDisposable();
         mApiService = (A) HttpProvider.getInstance().provideApiService();
@@ -80,6 +86,19 @@ public abstract class BaseActivity<A, P extends IBasePresenter, D> extends AppCo
             mCompositeDisposable.dispose();
         }
     }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        mBundle = intent.getBundleExtra(Constants.BUNDLE);
+        if (mBundle != null) {
+            onExtraBundleReceived(mBundle);
+        }
+    }
+
+    protected void onExtraBundleReceived(Bundle bundle) {}
+
 
     protected abstract SwipeRefreshLayout getSwipeRefreshView();
 
