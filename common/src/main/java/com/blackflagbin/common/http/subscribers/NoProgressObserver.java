@@ -68,7 +68,6 @@ public class NoProgressObserver<T> extends ResourceObserver<T> {
                     ((IBaseRefreshAndLoadMoreView) mBaseView).afterLoadMoreError(e);
                 }
             } else {
-                ErrorHandler.handleError(e, mBaseView);
                 if (mCallBack != null) {
                     mCallBack.onError(e);
                 }

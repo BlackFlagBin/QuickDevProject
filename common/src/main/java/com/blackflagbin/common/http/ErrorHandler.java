@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
+import com.blackflagbin.common.base.IApiException;
 import com.blackflagbin.common.base.IBaseView;
 import com.blackflagbin.common.facade.CommonLibrary;
 
@@ -23,9 +24,9 @@ public class ErrorHandler {
         if (baseView instanceof Fragment) {
             context = ((Fragment) baseView).getActivity();
         }
-        if (e instanceof ApiException) {
+        if (e instanceof IApiException) {
             Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
-            switch (((ApiException) e).getResultCode()) {
+            switch (((IApiException) e).getResultCode()) {
                 case 401:
                     //账号在别处登录
                     if (CommonLibrary.getInstance().getOnTokenExpiredListener() != null) {

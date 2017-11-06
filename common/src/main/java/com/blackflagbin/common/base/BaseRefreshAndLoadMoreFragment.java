@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -32,12 +33,12 @@ abstract public class BaseRefreshAndLoadMoreFragment<A, P extends IBaseRefreshAn
     @Override
     protected void setupView() {
         super.setupView();
+        mRecyclerView = getRecyclerView();
         mAdapter = getAdapter();
     }
 
     @Override
     public void showSuccessView(D data) {
-        mRecyclerView = getRecyclerView();
         mLayoutManager = getLayoutManager();
         mRecyclerView.setLayoutManager(mLayoutManager);
         View noDataView = getLayoutInflater().inflate(R.layout.layout_empty, (ViewGroup) mRecyclerView.getParent(), false);

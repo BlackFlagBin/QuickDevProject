@@ -1,6 +1,8 @@
 package com.blackflagbin.common.http;
 
-public class ApiException extends RuntimeException {
+import com.blackflagbin.common.base.IApiException;
+
+public class ApiException extends RuntimeException implements IApiException{
 
     private int    mResultCode;
     private String mMessage;

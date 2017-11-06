@@ -46,10 +46,11 @@ public abstract class BaseActivity<A, P extends IBasePresenter, D> extends AppCo
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutResId());
-        mBundle = getIntent().getBundleExtra(Constants.BUNDLE);
+        mBundle = getIntent().getExtras();
         if (mBundle != null) {
             onExtraBundleReceived(mBundle);
         }
+        mSPUtils=SPUtils.getInstance();
         mPresenter = getPresenter();
         mCompositeDisposable = new CompositeDisposable();
         mApiService = (A) HttpProvider.getInstance().provideApiService();
@@ -91,7 +92,7 @@ public abstract class BaseActivity<A, P extends IBasePresenter, D> extends AppCo
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         setIntent(intent);
-        mBundle = intent.getBundleExtra(Constants.BUNDLE);
+        mBundle = intent.getExtras();
         if (mBundle != null) {
             onExtraBundleReceived(mBundle);
         }

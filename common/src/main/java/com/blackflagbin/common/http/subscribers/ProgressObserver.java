@@ -83,7 +83,6 @@ public class ProgressObserver<T> extends ResourceObserver<T> implements Progress
                     ((IBaseRefreshAndLoadMoreView) mBaseView).afterLoadMoreError(e);
                 }
             } else {
-                ErrorHandler.handleError(e, mBaseView);
                 if (mCallBack != null) {
                     mCallBack.onError(e);
                 }

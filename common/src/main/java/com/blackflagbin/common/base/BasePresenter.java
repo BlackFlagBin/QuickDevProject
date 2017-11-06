@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 
+import com.blankj.utilcode.util.SPUtils;
+
 /**
  * Created by Ivan on 2017/1/3.
  */
@@ -14,6 +16,7 @@ abstract public class BasePresenter<M, V extends IBaseView> {
 
     protected V mView;
 
+    protected SPUtils mSPUtils = SPUtils.getInstance();
 
     protected Context mContext;
 
