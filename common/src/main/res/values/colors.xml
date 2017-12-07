@@ -21,17 +21,17 @@
     <color name="swiperefresh_color3">#ffff4444</color>
     <color name="swiperefresh_color4">#ffaa66cc</color>
 
-    <color name="grey_bg">#f0f1f7</color>
+    <color name="gray_bg">#f0f1f7</color>
     <color name="alpha_white_0">#1affffff</color>
     <color name="alpha_white_1">#8affffff</color>
     <color name="alpha_white_2">#eeffffff</color>
     <color name="white">#ffffff</color>
-    <color name="grey">#eeeeee</color>
-    <color name="grey_text">#909090</color>
-    <color name="grey_light">#f5f5f5</color>
-    <color name="grey_dark1">#b0b0b0</color>
-    <color name="grey_dark2">#dedede</color>
-    <color name="grey_dark3">#dddddd</color>
+    <color name="gray">#eeeeee</color>
+    <color name="gray_text">#909090</color>
+    <color name="gray_light">#f5f5f5</color>
+    <color name="gray_dark1">#b0b0b0</color>
+    <color name="gray_dark2">#dedede</color>
+    <color name="gray_dark3">#dddddd</color>
     <color name="red_light">#f24b17</color>
     <color name="red_item">#DC6161</color>
     <color name="red_dark">#c62828</color>

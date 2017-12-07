@@ -15,6 +15,7 @@ import com.blackflagbin.common.R;
 import com.blackflagbin.common.http.HttpProvider;
 import com.blankj.utilcode.util.SPUtils;
 import com.kennyc.view.MultiStateView;
+import com.trello.rxlifecycle2.components.support.RxFragment;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -25,7 +26,7 @@ import io.reactivex.disposables.Disposable;
  * Created by blackflagbin on 2017/6/28.
  */
 
-public abstract class BaseFragment<A, P extends IBasePresenter, D> extends Fragment implements IBaseView<D>, SwipeRefreshLayout.OnRefreshListener {
+public abstract class BaseFragment<A, P extends IBasePresenter, D> extends RxFragment implements IBaseView<D>, SwipeRefreshLayout.OnRefreshListener {
 
 
     protected P                   mPresenter;

@@ -27,7 +27,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/default_text_top_margin"
             android:text="暂无数据"
-            android:textColor="@color/grey_dark1"
+            android:textColor="@color/gray_dark1"
             android:textSize="@dimen/text_big"/>
 
         <Button
@@ -38,7 +38,7 @@
             android:layout_marginTop="@dimen/default_text_top_margin"
             android:background="@drawable/shape_button_border_grey"
             android:text="点击重试"
-            android:textColor="@color/grey_dark1"
+            android:textColor="@color/gray_dark1"
             android:textSize="@dimen/text_big"
             android:visibility="gone"/>
 

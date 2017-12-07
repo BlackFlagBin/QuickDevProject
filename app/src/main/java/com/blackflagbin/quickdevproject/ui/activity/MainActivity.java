@@ -1,6 +1,5 @@
 package com.blackflagbin.quickdevproject.ui.activity;
 
-import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.LinearLayoutManager;
@@ -74,6 +73,12 @@ public class MainActivity extends BaseRefreshAndLoadMoreActivity<ApiService, IMa
                 CookieDbUtil.getInstance().deleteAllCookie();
             }
         });
+        mBtPic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(SecondActivity.class, null);
+            }
+        });
         mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
@@ -87,6 +92,7 @@ public class MainActivity extends BaseRefreshAndLoadMoreActivity<ApiService, IMa
                 }
             }
         });
+
     }
 
     @Override

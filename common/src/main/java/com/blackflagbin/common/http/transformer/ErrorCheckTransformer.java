@@ -3,6 +3,7 @@ package com.blackflagbin.common.http.transformer;
 import com.blackflagbin.common.http.ApiException;
 
 import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
 import io.reactivex.functions.Function;
 

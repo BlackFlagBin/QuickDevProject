@@ -14,6 +14,7 @@ import com.blackflagbin.common.constants.Constants;
 import com.blackflagbin.common.http.HttpProvider;
 import com.blankj.utilcode.util.SPUtils;
 import com.kennyc.view.MultiStateView;
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -24,7 +25,7 @@ import io.reactivex.disposables.Disposable;
  * Created by blackflagbin on 2017/6/28.
  */
 
-public abstract class BaseActivity<A, P extends IBasePresenter, D> extends AppCompatActivity implements IBaseView<D>,
+public abstract class BaseActivity<A, P extends IBasePresenter, D> extends RxAppCompatActivity implements IBaseView<D>,
         SwipeRefreshLayout.OnRefreshListener {
 
 

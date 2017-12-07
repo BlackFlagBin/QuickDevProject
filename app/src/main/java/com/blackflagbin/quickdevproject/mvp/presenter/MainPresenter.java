@@ -37,7 +37,8 @@ public class MainPresenter extends BasePresenter<MainContract.IMainModel, MainCo
         String url = "http://www.gank.io/api/data/" + URLEncoder.encode("福利") + "/10/" + pageNo;
         if (pageNo == 1) {
             mView.beforeInitData();
-            return mModel.getDataList(pageNo)
+            mModel.getDataList(pageNo)
+                    .compose(mLifecycleProvider.<List<Entity>>bindToLifecycle())
                     .subscribeWith(new NoProgressObserver<List<Entity>>(true, false, url, mView, new ObserverCallBack<List<Entity>>() {
                         @Override
                         public void onNext(List<Entity> list) {
@@ -61,7 +62,8 @@ public class MainPresenter extends BasePresenter<MainContract.IMainModel, MainCo
                         }
                     }));
         } else {
-            return mModel.getDataList(pageNo)
+            mModel.getDataList(pageNo)
+                    .compose(mLifecycleProvider.<List<Entity>>bindToLifecycle())
                     .subscribeWith(new NoProgressObserver<List<Entity>>(true, true, url, mView, new ObserverCallBack<List<Entity>>() {
                         @Override
                         public void onNext(List<Entity> list) {
@@ -82,11 +84,12 @@ public class MainPresenter extends BasePresenter<MainContract.IMainModel, MainCo
                     }));
         }
 
-
+        return null;
     }
 
     @Override
     public Disposable initData() {
-        return initData(1);
+        initData(1);
+        return null;
     }
 }

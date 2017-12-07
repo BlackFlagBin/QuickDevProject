@@ -14,9 +14,13 @@ import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+
 public class ErrorHandler {
 
-    public static void handleError(Throwable e, IBaseView baseView) {
+    public static void handleError(final Throwable e, final IBaseView baseView) {
         Activity context = null;
         if (baseView instanceof Activity) {
             context = (Activity) baseView;
@@ -25,7 +29,14 @@ public class ErrorHandler {
             context = ((Fragment) baseView).getActivity();
         }
         if (e instanceof IApiException) {
-            Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+            final Activity finalContext = context;
+            Observable.just(1).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Integer>() {
+                @Override
+                public void accept(Integer integer) throws Exception {
+                    Toast.makeText(finalContext, e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                }
+            });
             switch (((IApiException) e).getResultCode()) {
                 case 401:
                     //账号在别处登录
@@ -44,14 +55,34 @@ public class ErrorHandler {
             }
         } else {
             if (e instanceof SocketTimeoutException) {
-                baseView.showTip("网络请求超时，请检查您的网络状态");
+                Observable.just(1).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Integer>() {
+                    @Override
+                    public void accept(Integer integer) throws Exception {
+                        baseView.showTip("网络请求超时，请检查您的网络状态");
+                    }
+                });
             } else if (e instanceof ConnectException) {
-                baseView.showTip("网络中断，请检查您的网络状态");
+                Observable.just(1).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Integer>() {
+                    @Override
+                    public void accept(Integer integer) throws Exception {
+                        baseView.showTip("网络中断，请检查您的网络状态");
+                    }
+                });
             } else if (e instanceof UnknownHostException) {
-                baseView.showTip("网络异常，请检查您的网络状态");
+                Observable.just(1).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Integer>() {
+                    @Override
+                    public void accept(Integer integer) throws Exception {
+                        baseView.showTip("网络异常，请检查您的网络状态");
+                    }
+                });
             } else {
+                Observable.just(1).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Integer>() {
+                    @Override
+                    public void accept(Integer integer) throws Exception {
+                        baseView.showTip("出现了未知错误，请尝试从新打开App或者向我们反馈");
+                    }
+                });
                 e.printStackTrace();
-                baseView.showTip("出现了未知错误，请尝试从新打开App或者向我们反馈");
             }
         }
     }

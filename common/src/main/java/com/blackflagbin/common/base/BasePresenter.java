@@ -5,6 +5,7 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 
 import com.blankj.utilcode.util.SPUtils;
+import com.trello.rxlifecycle2.LifecycleProvider;
 
 /**
  * Created by Ivan on 2017/1/3.
@@ -20,6 +21,8 @@ abstract public class BasePresenter<M, V extends IBaseView> {
 
     protected Context mContext;
 
+    protected LifecycleProvider mLifecycleProvider;
+
 
     public BasePresenter(V v) {
         this.mModel = getModel();
@@ -34,6 +37,7 @@ abstract public class BasePresenter<M, V extends IBaseView> {
         } else {
             mContext = (Activity) mView;
         }
+        mLifecycleProvider = (LifecycleProvider) mContext;
     }
 
 
