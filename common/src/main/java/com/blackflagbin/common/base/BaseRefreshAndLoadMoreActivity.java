@@ -3,7 +3,6 @@ package com.blackflagbin.common.base;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -37,7 +36,7 @@ public abstract class BaseRefreshAndLoadMoreActivity<A, P extends IBaseRefreshAn
         mLayoutManager = getLayoutManager();
         mRecyclerView.setLayoutManager(mLayoutManager);
         mAdapter = getAdapter();
-        View noDataView = getLayoutInflater().inflate(R.layout.layout_empty, (ViewGroup) mRecyclerView.getParent(), false);
+        View noDataView = getLayoutInflater().inflate(getEmptyLayoutId(), (ViewGroup) mRecyclerView.getParent(), false);
         mAdapter.setEmptyView(noDataView);
         mAdapter.setLoadMoreView(new CustomLoadMoreView());
         mAdapter.setOnLoadMoreListener(this, mRecyclerView);
@@ -50,6 +49,10 @@ public abstract class BaseRefreshAndLoadMoreActivity<A, P extends IBaseRefreshAn
         mAdapter.setNewData((List) data);
         mRecyclerView.setAdapter(mAdapter);
         showContentView(data);
+    }
+
+    protected Integer getEmptyLayoutId() {
+        return R.layout.layout_empty;
     }
 
     protected abstract BaseQuickAdapter getAdapter();
