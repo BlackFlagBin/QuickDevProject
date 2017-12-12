@@ -28,10 +28,9 @@ public abstract class BaseRefreshAndLoadMoreActivity<A, P extends IBaseRefreshAn
     protected RecyclerView               mRecyclerView;
     protected RecyclerView.LayoutManager mLayoutManager;
 
-
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void initView() {
+        super.initView();
         mRecyclerView = getRecyclerView();
         mLayoutManager = getLayoutManager();
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -40,14 +39,14 @@ public abstract class BaseRefreshAndLoadMoreActivity<A, P extends IBaseRefreshAn
         mAdapter.setEmptyView(noDataView);
         mAdapter.setLoadMoreView(new CustomLoadMoreView());
         mAdapter.setOnLoadMoreListener(this, mRecyclerView);
+        mRecyclerView.setAdapter(mAdapter);
         mAdapter.disableLoadMoreIfNotFullPage();
     }
 
     @Override
     public void showSuccessView(D data) {
         mMultiStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
-        mAdapter.setNewData((List) data);
-        mRecyclerView.setAdapter(mAdapter);
+        mAdapter.replaceData((List) data);
         showContentView(data);
     }
 

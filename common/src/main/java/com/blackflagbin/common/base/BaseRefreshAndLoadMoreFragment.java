@@ -31,10 +31,6 @@ abstract public class BaseRefreshAndLoadMoreFragment<A, P extends IBaseRefreshAn
         super.setupView();
         mRecyclerView = getRecyclerView();
         mAdapter = getAdapter();
-    }
-
-    @Override
-    public void showSuccessView(D data) {
         mLayoutManager = getLayoutManager();
         mRecyclerView.setLayoutManager(mLayoutManager);
         View noDataView = getLayoutInflater().inflate(getEmptyLayoutId(), (ViewGroup) mRecyclerView.getParent(), false);
@@ -42,9 +38,13 @@ abstract public class BaseRefreshAndLoadMoreFragment<A, P extends IBaseRefreshAn
         mAdapter.setLoadMoreView(new CustomLoadMoreView());
         mAdapter.setOnLoadMoreListener(this, mRecyclerView);
         mAdapter.disableLoadMoreIfNotFullPage();
-        mMultiStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
-        mAdapter.setNewData((List) data);
         mRecyclerView.setAdapter(mAdapter);
+    }
+
+    @Override
+    public void showSuccessView(D data) {
+        mMultiStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
+        mAdapter.replaceData((List) data);
         showContentView(data);
     }
 

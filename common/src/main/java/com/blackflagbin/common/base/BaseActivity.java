@@ -46,6 +46,11 @@ public abstract class BaseActivity<A, P extends IBasePresenter, D> extends RxApp
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initView();
+        init();
+    }
+
+    protected  void initView(){
         setContentView(getLayoutResId());
         mBundle = getIntent().getExtras();
         if (mBundle != null) {
@@ -75,7 +80,6 @@ public abstract class BaseActivity<A, P extends IBasePresenter, D> extends RxApp
                 }
             });
         }
-        init();
     }
 
     @Override

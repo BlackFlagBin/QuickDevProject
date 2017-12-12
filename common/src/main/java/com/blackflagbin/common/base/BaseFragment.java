@@ -3,7 +3,6 @@ package com.blackflagbin.common.base;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,6 +42,36 @@ public abstract class BaseFragment<A, P extends IBasePresenter, D> extends RxFra
     protected Unbinder            mUnbinder;
     protected CompositeDisposable mCompositeDisposable;
 
+
+    //标记需要等待回调onMyResume;
+    private boolean isWaitingForOnMyResume = false;
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden) {
+            onMyHide();
+        } else {
+            onMyShow();
+        }
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+
+        if (isVisibleToUser) {
+            if (isResumed()) {
+                onFragmentVisible();
+            } else {
+                isWaitingForOnMyResume = true;
+            }
+
+        } else {
+            if (isResumed()) { onFragmentInvisible(); }
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(
@@ -54,6 +83,27 @@ public abstract class BaseFragment<A, P extends IBasePresenter, D> extends RxFra
         mUnbinder = ButterKnife.bind(this, mRootView);
         mCompositeDisposable = new CompositeDisposable();
         return mRootView;
+    }
+
+    // FragmentTransaction 调用show 回调
+    protected void onMyShow() {
+
+    }
+
+    // FragmentTransaction 调用hide 回调
+    protected void onMyHide() {
+    }
+
+    /**
+     * viewPager中界面每次可见调用；
+     */
+    public void onFragmentVisible() {
+    }
+
+    /**
+     * viewPager中界面每次不可见调用；
+     */
+    public void onFragmentInvisible() {
     }
 
     protected void setupView() {
@@ -82,6 +132,16 @@ public abstract class BaseFragment<A, P extends IBasePresenter, D> extends RxFra
         super.onViewCreated(view, savedInstanceState);
         setupView();
         init();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (isWaitingForOnMyResume) {
+            isWaitingForOnMyResume = false;
+            onFragmentVisible();
+        }
+
     }
 
     @Override
