@@ -34,7 +34,7 @@ public class HttpProvider {
 
     public <P> P provideApiService() {
 
-        return (P) new Retrofit.Builder().client(provideOkHttpClient())
+        return (P) new Retrofit.Builder().client(provideOkHttpClient(CommonLibrary.getInstance().getHeaderMap()))
                 .baseUrl(CommonLibrary.getInstance().getBaseUrl())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -89,8 +89,12 @@ public class HttpProvider {
                     @Override
                     public Response intercept(Chain chain) throws IOException {
                         Request.Builder builder = chain.request().newBuilder();
-                        for (Map.Entry<String, String> entry : headerMap.entrySet()) {
-                            builder.addHeader(entry.getKey(), entry.getValue());
+                        if (headerMap == null || headerMap.size() == 0) {
+                            builder.addHeader("token", SPUtils.getInstance().getString("token", ""));
+                        } else {
+                            for (Map.Entry<String, String> entry : headerMap.entrySet()) {
+                                builder.addHeader(entry.getKey(), entry.getValue());
+                            }
                         }
                         Request request = builder.build();
                         return chain.proceed(request);

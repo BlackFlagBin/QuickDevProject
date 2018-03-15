@@ -37,21 +37,18 @@ public class ErrorHandler {
 
                 }
             });
-            switch (((IApiException) e).getResultCode()) {
-                case 401:
-                    //账号在别处登录
-                    if (CommonLibrary.getInstance().getOnTokenExpiredListener() != null) {
-                        CommonLibrary.getInstance().getOnTokenExpiredListener().onTokenExpired();
-                    }
-                    break;
-                case 10031:
-                    //token过期
-                    if (CommonLibrary.getInstance().getOnTokenExpiredListener() != null) {
-                        CommonLibrary.getInstance().getOnTokenExpiredListener().onTokenExpired();
-                    }
-                    break;
-                default:
-                    break;
+
+            int resultCode = ((IApiException) e).getResultCode();
+            if (resultCode == CommonLibrary.getInstance().getTokenExpiredErrorCode()) {
+                //token过期
+                if (CommonLibrary.getInstance().getOnTokenExpiredListener() != null) {
+                    CommonLibrary.getInstance().getOnTokenExpiredListener().onTokenExpired();
+                }
+            } else if (resultCode == CommonLibrary.getInstance().getTokenInvalidErrorCode()) {
+                //token无效
+                if (CommonLibrary.getInstance().getOnTokenExpiredListener() != null) {
+                    CommonLibrary.getInstance().getOnTokenExpiredListener().onTokenExpired();
+                }
             }
         } else {
             if (e instanceof SocketTimeoutException) {

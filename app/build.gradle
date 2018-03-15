@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion 27
+    buildToolsVersion "27.0.2"
     defaultConfig {
         applicationId "com.blackflagbin.quickdevproject"
         minSdkVersion 19
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -64,10 +64,10 @@ dependencies {
     compile project(':common')
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:multidex:1.0.1'
-    compile 'com.jakewharton:butterknife:8.7.0'
+    compile 'com.jakewharton:butterknife:8.8.1'
     compile 'javax.annotation:javax.annotation-api:1.2'
     compile 'com.alibaba:arouter-annotation:1.0.3'
-//    compile 'com.blackflagbin:commonlibrary:0.0.1-11'
+    //    compile 'com.blackflagbin:commonlibrary:0.0.1-11'
     testCompile 'junit:junit:4.12'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.7.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 }
