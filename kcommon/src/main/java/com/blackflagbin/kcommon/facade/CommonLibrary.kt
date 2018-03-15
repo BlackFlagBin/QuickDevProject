@@ -13,6 +13,7 @@ class CommonLibrary private constructor() {
     lateinit var baseUrl: String
     lateinit var apiClass: Class<*>
     lateinit var cacheClass: Class<*>
+    var spName: String = "kcommon"
     var isDebug: Boolean = true
     var headerMap: Map<String, String>? = null
     var errorHandleMap: Map<Int, ErrorHandleCallBack>? = null
@@ -24,6 +25,7 @@ class CommonLibrary private constructor() {
             baseUrl: String,
             apiClass: Class<*>,
             cacheClass: Class<*>,
+            spName: String = "kcommon",
             isDebug: Boolean = true,
             headerMap: Map<String, String>? = null,
             errorHandleMap: Map<Int, ErrorHandleCallBack>? = null,
@@ -34,6 +36,7 @@ class CommonLibrary private constructor() {
         this.baseUrl = baseUrl
         this.apiClass = apiClass
         this.cacheClass = cacheClass
+        this.spName = spName
         this.isDebug = isDebug
         this.headerMap = headerMap
         this.errorHandleMap = errorHandleMap
