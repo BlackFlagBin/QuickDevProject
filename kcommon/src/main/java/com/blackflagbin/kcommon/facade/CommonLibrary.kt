@@ -2,9 +2,7 @@ package com.blackflagbin.kcommon.facade
 
 import android.app.Application
 import android.content.Context
-import com.blackflagbin.kcommon.listener.ErrorHandleCallBack
-import com.blackflagbin.kcommon.listener.OnPageCreateListener
-import com.blackflagbin.kcommon.listener.OnPageDestroyListener
+import com.blackflagbin.kcommon.listener.*
 import com.blankj.utilcode.util.Utils
 
 class CommonLibrary private constructor() {
@@ -19,8 +17,10 @@ class CommonLibrary private constructor() {
     var errorHandleMap: Map<Int, ErrorHandleCallBack>? = null
     var onPageCreateListener: OnPageCreateListener? = null
     var onPageDestroyListener: OnPageDestroyListener? = null
+    var onPageResumeListener: OnPageResumeListener? = null
+    var onPagePauseListener: OnPagePauseListener? = null
 
-    fun init(
+    fun initLibrary(
             context: Application,
             baseUrl: String,
             apiClass: Class<*>,
@@ -30,7 +30,9 @@ class CommonLibrary private constructor() {
             headerMap: Map<String, String>? = null,
             errorHandleMap: Map<Int, ErrorHandleCallBack>? = null,
             onPageCreateListener: OnPageCreateListener? = null,
-            onPageDestroyListener: OnPageDestroyListener? = null) {
+            onPageDestroyListener: OnPageDestroyListener? = null,
+            onPageResumeListener: OnPageResumeListener? = null,
+            onPagePauseListener: OnPagePauseListener? = null) {
         this.context = context
         Utils.init(context)
         this.baseUrl = baseUrl
@@ -42,6 +44,8 @@ class CommonLibrary private constructor() {
         this.errorHandleMap = errorHandleMap
         this.onPageCreateListener = onPageCreateListener
         this.onPageDestroyListener = onPageDestroyListener
+        this.onPageResumeListener = onPageResumeListener
+        this.onPagePauseListener = onPagePauseListener
     }
 
 
