@@ -8,8 +8,12 @@ import com.blackflagbin.kcommon.widget.CustomLoadMoreView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.kennyc.view.MultiStateView
 
-abstract class BaseRefreshAndLoadMoreActivity<out A, out C, P : IBaseRefreshAndLoadMorePresenter, in D : ILoadMoreData> :
-        BaseActivity<A, C, P, D>(), BaseQuickAdapter.RequestLoadMoreListener,
+/**
+ * Created by blackflagbin on 2017/9/22.
+ */
+
+abstract class BaseRefreshAndLoadMoreFragment<out A, out C, P : IBaseRefreshAndLoadMorePresenter, in D : ILoadMoreData> :
+        BaseFragment<A, C, P, D>(), BaseQuickAdapter.RequestLoadMoreListener,
         IBaseRefreshAndLoadMoreView<D> {
     protected var mAdapter: BaseQuickAdapter<*, *>? = null
     private var mIsLoadComplete = false
@@ -24,6 +28,7 @@ abstract class BaseRefreshAndLoadMoreActivity<out A, out C, P : IBaseRefreshAndL
     protected abstract val adapter: BaseQuickAdapter<*, *>
 
     protected abstract val recyclerView: RecyclerView
+
 
     protected abstract val layoutManager: RecyclerView.LayoutManager
 
@@ -83,4 +88,5 @@ abstract class BaseRefreshAndLoadMoreActivity<out A, out C, P : IBaseRefreshAndL
             }
         }
     }
+
 }

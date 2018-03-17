@@ -22,7 +22,7 @@ import org.jetbrains.anko.support.v4.toast
  * Created by blackflagbin on 2017/6/28.
  */
 
-abstract class BaseFragment<out A, out C, P : IBasePresenter, D> : RxFragment(), IBaseView<D>,
+abstract class BaseFragment<out A, out C, P : IBasePresenter, in D> : RxFragment(), IBaseView<D>,
         SwipeRefreshLayout.OnRefreshListener {
 
 
