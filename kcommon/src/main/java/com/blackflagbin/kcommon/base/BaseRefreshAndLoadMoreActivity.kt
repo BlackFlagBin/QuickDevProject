@@ -28,6 +28,7 @@ abstract class BaseRefreshAndLoadMoreActivity<out A, out C, P : IBaseRefreshAndL
     protected abstract val layoutManager: RecyclerView.LayoutManager
 
     override fun initView() {
+
         super.initView()
         mRecyclerView = recyclerView
         mLayoutManager = layoutManager
