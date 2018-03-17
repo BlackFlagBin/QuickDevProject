@@ -21,7 +21,7 @@ import io.reactivex.disposables.Disposable;
 
 public abstract class BaseRefreshAndLoadMoreActivity<A, P extends IBaseRefreshAndLoadMorePresenter, D> extends BaseActivity<A, P, D> implements
         BaseQuickAdapter.RequestLoadMoreListener, IBaseRefreshAndLoadMoreView<D> {
-    public static int PAGE_SIZE = 10;
+    public static int PAGE_SIZE = 20;
     protected BaseQuickAdapter mAdapter;
     protected boolean mIsLoadComplete = false;
     protected int     mCurPage        = 1;

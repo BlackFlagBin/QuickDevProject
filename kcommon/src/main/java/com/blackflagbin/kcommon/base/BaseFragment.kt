@@ -22,7 +22,7 @@ import org.jetbrains.anko.support.v4.toast
  * Created by blackflagbin on 2017/6/28.
  */
 
-abstract class BaseFragment<A, C, P : IBasePresenter, D> : RxFragment(), IBaseView<D>,
+abstract class BaseFragment<out A, out C, P : IBasePresenter, D> : RxFragment(), IBaseView<D>,
         SwipeRefreshLayout.OnRefreshListener {
 
 
@@ -122,7 +122,7 @@ abstract class BaseFragment<A, C, P : IBasePresenter, D> : RxFragment(), IBaseVi
         }
     }
 
-    protected fun initView() {
+    protected open fun initView() {
         mPresenter = presenter
         mSwipeRefresh = swipeRefreshView
         mSwipeRefresh?.setOnRefreshListener(this)
@@ -184,22 +184,22 @@ abstract class BaseFragment<A, C, P : IBasePresenter, D> : RxFragment(), IBaseVi
     }
 
     // FragmentTransaction 调用show 回调
-    protected fun onFragmentShow() {
+    protected open fun onFragmentShow() {
 
     }
 
     // FragmentTransaction 调用hide 回调
-    protected fun onFragmentHide() {}
+    protected open fun onFragmentHide() {}
 
     /**
      * viewPager中界面每次可见调用；
      */
-    protected fun onFragmentVisible() {}
+    protected open fun onFragmentVisible() {}
 
     /**
      * viewPager中界面每次不可见调用；
      */
-    protected fun onFragmentInvisible() {}
+    protected open fun onFragmentInvisible() {}
 
     protected abstract fun initData()
 

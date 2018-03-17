@@ -116,9 +116,9 @@ abstract class BaseActivity<out A, out C, P : IBasePresenter, in D> : RxAppCompa
         mMultiStateView?.viewState = MultiStateView.VIEW_STATE_ERROR
     }
 
-    protected fun onExtraBundleReceived(bundle: Bundle) {}
+    protected open fun onExtraBundleReceived(bundle: Bundle) {}
 
-    protected fun initView() {
+    protected open fun initView() {
         setContentView(layoutResId)
         mBundle = intent.extras
         mBundle?.let {

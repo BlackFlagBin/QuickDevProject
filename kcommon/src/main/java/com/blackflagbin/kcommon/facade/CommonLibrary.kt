@@ -13,6 +13,8 @@ class CommonLibrary private constructor() {
     lateinit var cacheClass: Class<*>
     var spName: String = "kcommon"
     var isDebug: Boolean = true
+    var startPage: Int = 1
+    var pageSize: Int = 20
     var headerMap: Map<String, String>? = null
     var errorHandleMap: Map<Int, ErrorHandleCallBack>? = null
     var onPageCreateListener: OnPageCreateListener? = null
@@ -27,6 +29,8 @@ class CommonLibrary private constructor() {
             cacheClass: Class<*>,
             spName: String = "kcommon",
             isDebug: Boolean = true,
+            startPage: Int = 1,
+            pageSize: Int = 20,
             headerMap: Map<String, String>? = null,
             errorHandleMap: Map<Int, ErrorHandleCallBack>? = null,
             onPageCreateListener: OnPageCreateListener? = null,
@@ -40,6 +44,8 @@ class CommonLibrary private constructor() {
         this.cacheClass = cacheClass
         this.spName = spName
         this.isDebug = isDebug
+        this.startPage = startPage
+        this.pageSize = pageSize
         this.headerMap = headerMap
         this.errorHandleMap = errorHandleMap
         this.onPageCreateListener = onPageCreateListener

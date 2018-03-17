@@ -19,7 +19,7 @@ import io.reactivex.disposables.Disposable;
 
 abstract public class BaseRefreshAndLoadMoreFragment<A, P extends IBaseRefreshAndLoadMorePresenter, D> extends BaseFragment<A, P, D> implements
         BaseQuickAdapter.RequestLoadMoreListener, IBaseRefreshAndLoadMoreView<D> {
-    public static int PAGE_SIZE = 10;
+    public static int PAGE_SIZE = 20;
     protected BaseQuickAdapter mAdapter;
     protected boolean mIsLoadComplete = false;
     protected int     mCurPage        = 1;
